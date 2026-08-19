@@ -116,7 +116,7 @@ public class BarberPersistenceAdapter implements BarberRepository {
 
     @Override
     public boolean existsByPhoneNumber(String phoneNumber) {
-        return false;
+        return jpaBarberRepository.existsByPhoneNumber(phoneNumber);
     }
 
 }
