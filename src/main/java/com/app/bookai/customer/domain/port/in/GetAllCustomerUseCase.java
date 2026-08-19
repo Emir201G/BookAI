@@ -2,6 +2,8 @@ package com.app.bookai.customer.domain.port.in;
 
 import com.app.bookai.customer.domain.model.Customer;
 
-public interface CreateCustomerUseCase {
-    Customer createCustomer(Customer customer);
+import java.util.List;
+
+public interface GetAllCustomerUseCase {
+    List<Customer> getAllCustomers();
 }

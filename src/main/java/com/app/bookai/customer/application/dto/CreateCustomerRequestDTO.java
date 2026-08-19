@@ -1,4 +1,8 @@
 package com.app.bookai.customer.application.dto;
 
-public class CreateCustomerRequestDTO {
+import jakarta.validation.constraints.NotBlank;
+
+public record CreateCustomerRequestDTO(
+        @NotBlank String name,
+        @NotBlank String phoneNumber) {
 }
