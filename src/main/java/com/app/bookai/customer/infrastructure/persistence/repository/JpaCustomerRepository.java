@@ -8,5 +8,4 @@ import java.util.Optional;
 public interface JpaCustomerRepository extends JpaRepository<CustomerEntity, Long> {
     Optional<CustomerEntity> findByPhoneNumber(String phoneNumber);
     boolean existsByPhoneNumber(String phoneNumber);
-//    void deleteByPhoneNumber(String phoneNumber);
 }
