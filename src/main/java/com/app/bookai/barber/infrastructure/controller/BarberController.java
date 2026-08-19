@@ -35,14 +35,14 @@ public class BarberController {
 
     @GetMapping("/barber/{phone-number}")
     public ResponseEntity<BarberResponseDTO> getBarberByPhoneNumber(@PathVariable("phone-number") String parameter) {
-        Barber barber = getBarberByPhoneNumberUseCase.getBarber(parameter);
+        Barber barber = getBarberByPhoneNumberUseCase.getBarberByPhoneNumber(parameter);
         return ResponseEntity.ok(barberMapper.toDTO(barber));
     }
 
     @DeleteMapping("delete/{phone-number}")
     public ResponseEntity<?> deleteBarber(@PathVariable("phone-number") String parameter) {
 
-        Barber barber = getBarberByPhoneNumberUseCase.getBarber(parameter);
+        Barber barber = getBarberByPhoneNumberUseCase.getBarberByPhoneNumber(parameter);
         deleteBarberUseCase.delete(barber);
         return ResponseEntity.ok("delete barber");
     }

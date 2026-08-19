@@ -10,7 +10,6 @@ public interface BarberRepository {
     Barber save(Barber barber);
     void remove(Barber barber);
     List<Barber> getAll();
-    Barber getBarber(String phoneNumber);
     Barber update(Barber barber);
     void updateWorkingHours(String phoneNumber, List<WorkingHour> workingHours);
     Optional<Barber> findByPhoneNumber(String phoneNumber);

@@ -51,13 +51,6 @@ public class BarberPersistenceAdapter implements BarberRepository {
         return barberPersistenceMapper.toDomain(entities);
     }
 
-    @Override
-    public Barber getBarber(String phoneNumber) {
-        BarberEntity barber = jpaBarberRepository.findByPhoneNumber(phoneNumber)
-                .orElseThrow(() -> new NotFoundByPhoneNumber(phoneNumber));
-
-        return barberPersistenceMapper.toDomain(barber);
-    }
 
     @Transactional
     @Override
@@ -111,7 +104,10 @@ public class BarberPersistenceAdapter implements BarberRepository {
 
     @Override
     public Optional<Barber> findByPhoneNumber(String phoneNumber) {
-        return Optional.empty();
+        BarberEntity barberEntity = jpaBarberRepository.findByPhoneNumber(phoneNumber)
+                .orElseThrow(() -> new NotFoundByPhoneNumber(phoneNumber));
+        Barber barber = barberPersistenceMapper.toDomain(barberEntity);
+        return Optional.of(barber);
     }
 
     @Override
