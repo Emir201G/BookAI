@@ -27,7 +27,7 @@ public class Barber {
 
     void updateBarber(Barber barber) {
         if (barber != null ) {
-            this.isActive = barber.isActive;
+            this.isActive = barber.getIsActive();
             this.name = barber.getName();
             this.phoneNumber = barber.getPhoneNumber();
             this.role = barber.getRole();
