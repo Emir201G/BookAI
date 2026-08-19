@@ -13,6 +13,7 @@ public interface BarberMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "role", expression = "java(com.app.bookai.shared.enums.RoleType.WORKER)")
     @Mapping(target = "createdAt", expression = "java(java.time.LocalDateTime.now())")
+
     Barber toDomain(CreateBarberRequestDTO requestDTO);
 
     BarberResponseDTO toDTO(Barber barber);

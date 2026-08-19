@@ -4,6 +4,7 @@ import com.app.bookai.barber.domain.model.Barber;
 import com.app.bookai.barber.domain.model.WorkingHour;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BarberRepository {
     Barber save(Barber barber);
@@ -12,5 +13,6 @@ public interface BarberRepository {
     Barber getBarber(String phoneNumber);
     Barber update(Barber barber);
     void updateWorkingHours(String phoneNumber, List<WorkingHour> workingHours);
-    
+    Optional<Barber> findByPhoneNumber(String phoneNumber);
+    boolean existsByPhoneNumber(String phoneNumber);
 }

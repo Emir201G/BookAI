@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -29,16 +30,6 @@ public class BarberPersistenceAdapter implements BarberRepository {
         if (entity.getWorkingHours() != null) {
             entity.getWorkingHours()
                     .forEach(workingHour -> workingHour.setBarber(entity));
-        }
-
-        if (entity.getDayOffs() != null) {
-            entity.getDayOffs()
-                    .forEach(dayOff -> dayOff.setBarber(entity));
-        }
-
-        if (entity.getWorkingHourOverrides() != null) {
-            entity.getWorkingHourOverrides()
-                    .forEach(override -> override.setBarber(entity));
         }
 
         BarberEntity saved = jpaBarberRepository.save(entity);
@@ -116,6 +107,16 @@ public class BarberPersistenceAdapter implements BarberRepository {
         );
 
         jpaBarberRepository.save(entity);
+    }
+
+    @Override
+    public Optional<Barber> findByPhoneNumber(String phoneNumber) {
+        return Optional.empty();
+    }
+
+    @Override
+    public boolean existsByPhoneNumber(String phoneNumber) {
+        return false;
     }
 
 }

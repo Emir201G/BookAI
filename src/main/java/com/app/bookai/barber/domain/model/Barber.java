@@ -19,15 +19,15 @@ public class Barber {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     @Builder.Default
-    private boolean isActive = true;
+    private Boolean isActive = true;
     private List<WorkingHour> workingHours;
     private List<DayOff> dayOffs;
     private List<WorkingHourOverride> workingHourOverrides;
 
 
     void updateBarber(Barber barber) {
-        if (barber != null && barber.isActive()) {
-            this.isActive = barber.isActive();
+        if (barber != null ) {
+            this.isActive = barber.isActive;
             this.name = barber.getName();
             this.phoneNumber = barber.getPhoneNumber();
             this.role = barber.getRole();
