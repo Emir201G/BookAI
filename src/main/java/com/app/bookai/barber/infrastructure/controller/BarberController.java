@@ -3,6 +3,7 @@ package com.app.bookai.barber.infrastructure.controller;
 import com.app.bookai.barber.application.dto.*;
 import com.app.bookai.barber.application.mapper.BarberMapper;
 import com.app.bookai.barber.domain.model.Barber;
+import com.app.bookai.barber.domain.model.DayOff;
 import com.app.bookai.barber.domain.model.WorkingHour;
 import com.app.bookai.barber.domain.port.in.*;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ public class BarberController {
     private final DeleteBarberUseCase deleteBarberUseCase;
     private final GetAllBarbersUseCase getAllBarbersUseCase;
     private final UpdateBarberUseCase updateBarberUseCase;
+    private final CreateDayOffUseCase createDayOffUseCase;
     private final UpdateWorkingHourUseCase updateWorkingHourUseCase;
     private final BarberMapper barberMapper;
 
@@ -61,29 +63,14 @@ public class BarberController {
         return ResponseEntity.ok(barberMapper.toDTO(barber));
     }
 
-    @PostMapping("/update-working-hour/{phone-number}")
-    public ResponseEntity<?> updateWorkingHour(
-            @PathVariable("phone-number") String parameter,
-            @RequestBody UpdateWorkingHourRequestDTO requestDTO) {
+    @PostMapping("/create/day-offs/{name}")
+    public ResponseEntity<BarberResponseDTO> createDayOffs(
+            @PathVariable String name,
+            @RequestBody List<CreateDayOffDTO> createDayOffDTOS
+    ){
 
-        System.out.println("DTO: " + requestDTO);
-        System.out.println("HORARIOS DTO: " + requestDTO.workingHours());
-
-        List<WorkingHour> workingHours =
-                barberMapper.toDomain(requestDTO.workingHours());
-
-        System.out.println("===== CONTROLLER =====");
-
-        for (WorkingHour wh : workingHours) {
-            System.out.println(
-                    "dayOfWeek = " + wh.getDayOfWeek()
-                            + " | startTime = " + wh.getStartTime()
-                            + " | endTime = " + wh.getEndTime()
-            );
-        }
-
-        updateWorkingHourUseCase.update(parameter, workingHours);
-
-        return ResponseEntity.ok("update working-hour");
+        List<DayOff> dayOffs = barberMapper.toDomain(createDayOffDTOS);
+        Barber barber = createDayOffUseCase.createDayOff(dayOffs,name);
+        return ResponseEntity.ok(barberMapper.toDTO(barber));
     }
 }

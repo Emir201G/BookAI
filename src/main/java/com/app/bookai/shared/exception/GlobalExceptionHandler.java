@@ -1,5 +1,7 @@
 package com.app.bookai.shared.exception;
 
+import com.app.bookai.barber.domain.exception.EmptyDayOffListException;
+import com.app.bookai.barber.domain.exception.NotFoundByName;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,5 +43,21 @@ public class GlobalExceptionHandler {
             HttpServletRequest request
     ){
         return buildErrorResponse(phoneNumberAlreadyExistsException, HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler(NotFoundByName.class)
+    public ResponseEntity<ErrorResponse> handleNotFoundByName(
+            NotFoundByName notFoundByName,
+            HttpServletRequest request
+    ){
+        return buildErrorResponse(notFoundByName, HttpStatus.NOT_FOUND, request);
+    }
+
+    @ExceptionHandler(EmptyDayOffListException.class)
+    public ResponseEntity<ErrorResponse> handleEmptyDayOffListException(
+            EmptyDayOffListException emptyDayOffListException,
+            HttpServletRequest request
+    ){
+        return buildErrorResponse(emptyDayOffListException, HttpStatus.BAD_REQUEST, request);
     }
 }
