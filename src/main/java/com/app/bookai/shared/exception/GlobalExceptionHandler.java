@@ -1,9 +1,6 @@
 package com.app.bookai.shared.exception;
 
-import com.app.bookai.barber.domain.exception.EmptyDayOffListException;
-import com.app.bookai.barber.domain.exception.EmptyWorkingHourListException;
-import com.app.bookai.barber.domain.exception.NotFoundByName;
-import com.app.bookai.barber.domain.exception.NotFundByDate;
+import com.app.bookai.barber.domain.exception.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -79,5 +76,12 @@ public class GlobalExceptionHandler {
             HttpServletRequest request
     ) {
         return buildErrorResponse(notFundByDate, HttpStatus.NOT_FOUND, request);
+    }
+    @ExceptionHandler(NameAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleNameAlreadyExistsException(
+            NameAlreadyExistsException nameAlreadyExistsException,
+            HttpServletRequest request
+    ){
+        return buildErrorResponse(nameAlreadyExistsException, HttpStatus.BAD_REQUEST, request);
     }
 }

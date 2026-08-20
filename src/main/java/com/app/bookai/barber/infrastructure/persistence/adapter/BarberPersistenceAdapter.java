@@ -26,15 +26,12 @@ public class BarberPersistenceAdapter implements BarberRepository {
     @Transactional
     public Barber save(Barber barber) {
 
-        BarberEntity entity =
-                barberPersistenceMapper.toBarberEntity(barber);
+        BarberEntity entity = barberPersistenceMapper.toBarberEntity(barber);
         if (entity.getDayOffs() != null) {
-            entity.getDayOffs()
-                    .forEach(dayOff -> dayOff.setBarber(entity));
+            entity.getDayOffs().forEach(dayOff -> dayOff.setBarber(entity));
         }
         if (entity.getWorkingHours() != null) {
-            entity.getWorkingHours()
-                    .forEach(workingHour -> workingHour.setBarber(entity));
+            entity.getWorkingHours().forEach(workingHour -> workingHour.setBarber(entity));
         }
 
         BarberEntity saved = jpaBarberRepository.save(entity);
@@ -44,8 +41,7 @@ public class BarberPersistenceAdapter implements BarberRepository {
 
     @Override
     public void remove(Barber barber) {
-        BarberEntity b = jpaBarberRepository.findByPhoneNumber(barber.getPhoneNumber())
-                .orElseThrow(() -> new NotFoundByPhoneNumber(barber.getPhoneNumber()));
+        BarberEntity b = jpaBarberRepository.findByPhoneNumber(barber.getPhoneNumber()).orElseThrow(() -> new NotFoundByPhoneNumber(barber.getPhoneNumber()));
         jpaBarberRepository.delete(b);
     }
 
@@ -60,8 +56,7 @@ public class BarberPersistenceAdapter implements BarberRepository {
     @Transactional
     @Override
     public Barber update(Barber barber) {
-        BarberEntity barberEntity = jpaBarberRepository.findByPhoneNumber(barber.getPhoneNumber())
-                .orElseThrow(() -> new NotFoundByPhoneNumber(barber.getPhoneNumber()));
+        BarberEntity barberEntity = jpaBarberRepository.findByPhoneNumber(barber.getPhoneNumber()).orElseThrow(() -> new NotFoundByPhoneNumber(barber.getPhoneNumber()));
         barberEntity.setName(barber.getName());
         barberEntity.setPhoneNumber(barber.getPhoneNumber());
         jpaBarberRepository.save(barberEntity);
@@ -70,13 +65,9 @@ public class BarberPersistenceAdapter implements BarberRepository {
 
     @Transactional
     @Override
-    public void updateWorkingHours(
-            String phoneNumber,
-            List<WorkingHour> workingHours) {
+    public void updateWorkingHours(String phoneNumber, List<WorkingHour> workingHours) {
 
-        BarberEntity entity = jpaBarberRepository
-                .findByPhoneNumber(phoneNumber)
-                .orElseThrow(() -> new NotFoundByPhoneNumber(phoneNumber));
+        BarberEntity entity = jpaBarberRepository.findByPhoneNumber(phoneNumber).orElseThrow(() -> new NotFoundByPhoneNumber(phoneNumber));
 
         System.out.println("ANTES: " + entity.getWorkingHours().size());
 
@@ -84,12 +75,9 @@ public class BarberPersistenceAdapter implements BarberRepository {
 
         if (workingHours != null && !workingHours.isEmpty()) {
 
-            List<WorkingHourEntity> workingHourEntities =
-                    barberPersistenceMapper.toWorkingHourEntity(workingHours);
+            List<WorkingHourEntity> workingHourEntities = barberPersistenceMapper.toWorkingHourEntity(workingHours);
 
-            System.out.println(
-                    "MAPPER ENTITY: " + workingHourEntities.size()
-            );
+            System.out.println("MAPPER ENTITY: " + workingHourEntities.size());
 
             workingHourEntities.forEach(workingHourEntity -> {
 
@@ -100,17 +88,14 @@ public class BarberPersistenceAdapter implements BarberRepository {
             });
         }
 
-        System.out.println(
-                "DESPUES: " + entity.getWorkingHours().size()
-        );
+        System.out.println("DESPUES: " + entity.getWorkingHours().size());
 
         jpaBarberRepository.save(entity);
     }
 
     @Override
     public Optional<Barber> findByPhoneNumber(String phoneNumber) {
-        BarberEntity barberEntity = jpaBarberRepository.findByPhoneNumber(phoneNumber)
-                .orElseThrow(() -> new NotFoundByPhoneNumber(phoneNumber));
+        BarberEntity barberEntity = jpaBarberRepository.findByPhoneNumber(phoneNumber).orElseThrow(() -> new NotFoundByPhoneNumber(phoneNumber));
         Barber barber = barberPersistenceMapper.toDomain(barberEntity);
         return Optional.of(barber);
     }
@@ -123,16 +108,16 @@ public class BarberPersistenceAdapter implements BarberRepository {
     @Override
     public Optional<Barber> findByName(String name) {
 
-        BarberEntity barberEntity = jpaBarberRepository.findByName(name)
-                .orElseThrow(() -> new NotFoundByName(name));
+        BarberEntity barberEntity = jpaBarberRepository.findByName(name).orElseThrow(() -> new NotFoundByName(name));
 
         Barber barber = barberPersistenceMapper.toDomain(barberEntity);
         return Optional.of(barber);
     }
 
     @Override
-    public boolean existsDayOffByName(String name) {
-        return jpaBarberRepository.existsDayOffByName(name);
+    public boolean existsByName(String name) {
+        return jpaBarberRepository.existsByName(name);
     }
+
 
 }

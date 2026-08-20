@@ -22,7 +22,6 @@ public class BarberController {
     private final GetBarberByPhoneNumberUseCase getBarberByPhoneNumberUseCase;
     private final DeleteBarberUseCase deleteBarberUseCase;
     private final GetAllBarbersUseCase getAllBarbersUseCase;
-    private final UpdateBarberUseCase updateBarberUseCase;
     private final CreateDayOffUseCase createDayOffUseCase;
     private final UpdateWorkingHourUseCase updateWorkingHourUseCase;
     private final UpdateDayOffUseCase updateDayOffUseCase;
@@ -55,14 +54,6 @@ public class BarberController {
     public ResponseEntity<List<BarberResponseDTO>> getAllBarbers() {
         List<Barber> barbers = getAllBarbersUseCase.getAllBarbers();
         return ResponseEntity.ok(barberMapper.toResponseDTO(barbers));
-    }
-
-    @PostMapping("/update")
-    public ResponseEntity<BarberResponseDTO> updateBarber(@RequestBody UpdateBarberRequestDTO requestDTO) {
-
-        Barber barber = barberMapper.toDomainDayOffs(requestDTO);
-        updateBarberUseCase.update(barber);
-        return ResponseEntity.ok(barberMapper.toDTO(barber));
     }
 
     @PostMapping("/create/day-offs/{name}")

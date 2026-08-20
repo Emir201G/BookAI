@@ -22,7 +22,6 @@ public class BarberEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
     @Column(name = "phone_number")
     private String phoneNumber;
