@@ -1,6 +1,7 @@
 package com.app.bookai.shared.exception;
 
 import com.app.bookai.barber.domain.exception.EmptyDayOffListException;
+import com.app.bookai.barber.domain.exception.EmptyWorkingHourListException;
 import com.app.bookai.barber.domain.exception.NotFoundByName;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -59,5 +60,12 @@ public class GlobalExceptionHandler {
             HttpServletRequest request
     ){
         return buildErrorResponse(emptyDayOffListException, HttpStatus.BAD_REQUEST, request);
+    }
+    @ExceptionHandler(EmptyWorkingHourListException.class)
+    public ResponseEntity<ErrorResponse> handleEmptyWorkingHourListException(
+            EmptyWorkingHourListException emptyWorkingHourListException,
+            HttpServletRequest request
+    ){
+        return buildErrorResponse(emptyWorkingHourListException, HttpStatus.BAD_REQUEST, request);
     }
 }

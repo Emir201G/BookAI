@@ -25,17 +25,14 @@ public interface BarberMapper {
             target = "createdAt",
             expression = "java(java.time.LocalDateTime.now())"
     )
-    Barber toDomain(CreateBarberRequestDTO requestDTO);
+    Barber toDomainDayOffs(CreateBarberRequestDTO requestDTO);
 
     BarberResponseDTO toDTO(Barber barber);
 
     List<BarberResponseDTO> toResponseDTO(List<Barber> barbers);
 
-    Barber toDomain(UpdateBarberRequestDTO requestDTO);
+    Barber toDomainDayOffs(UpdateBarberRequestDTO requestDTO);
 
-    WorkingHour toDomain(WorkingHourRequestDTO requestDTO);
-
-    DayOff toDomain(CreateDayOffDTO requestDTO);
-
-    List<DayOff> toDomain(List<CreateDayOffDTO> requestDTO);
+    List<DayOff> toDomainDayOffs(List<CreateDayOffDTO> requestDTO);
+    List<WorkingHour> toDomainWorkingHours(List<WorkingHourRequestDTO>  requestDTO);
 }

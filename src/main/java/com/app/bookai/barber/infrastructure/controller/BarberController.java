@@ -29,7 +29,7 @@ public class BarberController {
     @PostMapping("/create")
     public ResponseEntity<BarberResponseDTO> createBarber(@RequestBody CreateBarberRequestDTO requestDTO) {
 
-        Barber barber = barberMapper.toDomain(requestDTO);
+        Barber barber = barberMapper.toDomainDayOffs(requestDTO);
         createBarberUseCase.createBarber(barber);
 
         return ResponseEntity.ok(barberMapper.toDTO(barber));
@@ -58,7 +58,7 @@ public class BarberController {
     @PostMapping("/update")
     public ResponseEntity<BarberResponseDTO> updateBarber(@RequestBody UpdateBarberRequestDTO requestDTO) {
 
-        Barber barber = barberMapper.toDomain(requestDTO);
+        Barber barber = barberMapper.toDomainDayOffs(requestDTO);
         updateBarberUseCase.update(barber);
         return ResponseEntity.ok(barberMapper.toDTO(barber));
     }
@@ -67,10 +67,20 @@ public class BarberController {
     public ResponseEntity<BarberResponseDTO> createDayOffs(
             @PathVariable String name,
             @RequestBody List<CreateDayOffDTO> createDayOffDTOS
-    ){
+    ) {
 
-        List<DayOff> dayOffs = barberMapper.toDomain(createDayOffDTOS);
-        Barber barber = createDayOffUseCase.createDayOff(dayOffs,name);
+        List<DayOff> dayOffs = barberMapper.toDomainDayOffs(createDayOffDTOS);
+        Barber barber = createDayOffUseCase.createDayOff(dayOffs, name);
+        return ResponseEntity.ok(barberMapper.toDTO(barber));
+    }
+
+    @PostMapping("/update/working-hours/{name}")
+    public ResponseEntity<BarberResponseDTO> updateWorkingHours(
+            @PathVariable String name,
+            @RequestBody List<WorkingHourRequestDTO> workingHourDTOS
+    ) {
+        List<WorkingHour> workingHours = barberMapper.toDomainWorkingHours(workingHourDTOS);
+        Barber barber = updateWorkingHourUseCase.update(name, workingHours);
         return ResponseEntity.ok(barberMapper.toDTO(barber));
     }
 }

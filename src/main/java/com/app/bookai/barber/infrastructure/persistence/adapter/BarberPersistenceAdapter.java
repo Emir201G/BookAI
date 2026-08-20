@@ -28,10 +28,9 @@ public class BarberPersistenceAdapter implements BarberRepository {
 
         BarberEntity entity =
                 barberPersistenceMapper.toBarberEntity(barber);
-        if(entity.getDayOffs() != null) {
-            for(DayOffEntity dayOffEntity : entity.getDayOffs()) {
-                dayOffEntity.setBarber(entity);
-            }
+        if (entity.getDayOffs() != null) {
+            entity.getDayOffs()
+                    .forEach(dayOff -> dayOff.setBarber(entity));
         }
         if (entity.getWorkingHours() != null) {
             entity.getWorkingHours()
