@@ -16,4 +16,6 @@ public interface BarberRepository {
     Optional<Barber> findByPhoneNumber(String phoneNumber);
     boolean existsByPhoneNumber(String phoneNumber);
     Optional<Barber> findByName(String name);
+    boolean existsDayOffByName(String name);
+
 }

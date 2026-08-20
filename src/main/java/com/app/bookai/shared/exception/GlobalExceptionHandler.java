@@ -3,6 +3,7 @@ package com.app.bookai.shared.exception;
 import com.app.bookai.barber.domain.exception.EmptyDayOffListException;
 import com.app.bookai.barber.domain.exception.EmptyWorkingHourListException;
 import com.app.bookai.barber.domain.exception.NotFoundByName;
+import com.app.bookai.barber.domain.exception.NotFundByDate;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     private ResponseEntity<ErrorResponse> buildErrorResponse(
@@ -38,11 +40,12 @@ public class GlobalExceptionHandler {
             HttpServletRequest request) {
         return buildErrorResponse(notFoundByPhoneNumber, HttpStatus.NOT_FOUND, request);
     }
+
     @ExceptionHandler(PhoneNumberAlreadyExistsException.class)
     public ResponseEntity<ErrorResponse> handlePhoneNumberAlreadyExistsException(
             PhoneNumberAlreadyExistsException phoneNumberAlreadyExistsException,
             HttpServletRequest request
-    ){
+    ) {
         return buildErrorResponse(phoneNumberAlreadyExistsException, HttpStatus.BAD_REQUEST, request);
     }
 
@@ -50,7 +53,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleNotFoundByName(
             NotFoundByName notFoundByName,
             HttpServletRequest request
-    ){
+    ) {
         return buildErrorResponse(notFoundByName, HttpStatus.NOT_FOUND, request);
     }
 
@@ -58,14 +61,23 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleEmptyDayOffListException(
             EmptyDayOffListException emptyDayOffListException,
             HttpServletRequest request
-    ){
+    ) {
         return buildErrorResponse(emptyDayOffListException, HttpStatus.BAD_REQUEST, request);
     }
+
     @ExceptionHandler(EmptyWorkingHourListException.class)
     public ResponseEntity<ErrorResponse> handleEmptyWorkingHourListException(
             EmptyWorkingHourListException emptyWorkingHourListException,
             HttpServletRequest request
-    ){
+    ) {
         return buildErrorResponse(emptyWorkingHourListException, HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler(NotFundByDate.class)
+    public ResponseEntity<ErrorResponse> handleNotFundByDate(
+            NotFundByDate notFundByDate,
+            HttpServletRequest request
+    ) {
+        return buildErrorResponse(notFundByDate, HttpStatus.NOT_FOUND, request);
     }
 }

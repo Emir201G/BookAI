@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -24,6 +25,7 @@ public class BarberController {
     private final UpdateBarberUseCase updateBarberUseCase;
     private final CreateDayOffUseCase createDayOffUseCase;
     private final UpdateWorkingHourUseCase updateWorkingHourUseCase;
+    private final UpdateDayOffUseCase updateDayOffUseCase;
     private final BarberMapper barberMapper;
 
     @PostMapping("/create")
@@ -81,6 +83,16 @@ public class BarberController {
     ) {
         List<WorkingHour> workingHours = barberMapper.toDomainWorkingHours(workingHourDTOS);
         Barber barber = updateWorkingHourUseCase.update(name, workingHours);
+        return ResponseEntity.ok(barberMapper.toDTO(barber));
+    }
+
+    @PostMapping("/update/day-off/{name}/{date}")
+    public ResponseEntity<BarberResponseDTO> updateDayOff(
+            @PathVariable String name,
+            @PathVariable LocalDate date,
+            @RequestBody DayOff dayOff
+    ) {
+        Barber barber = updateDayOffUseCase.updateDayOff(name, date, dayOff);
         return ResponseEntity.ok(barberMapper.toDTO(barber));
     }
 }

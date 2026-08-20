@@ -10,4 +10,5 @@ public interface JpaBarberRepository extends JpaRepository<BarberEntity, Long> {
     Optional<BarberEntity> findByPhoneNumber(String barberNumber);
     boolean existsByPhoneNumber(String barberNumber);
     Optional<BarberEntity> findByName(String name);
+    boolean existsDayOffByName(String name);
 }

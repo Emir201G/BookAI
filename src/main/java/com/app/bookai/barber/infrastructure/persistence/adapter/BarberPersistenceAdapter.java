@@ -1,7 +1,6 @@
 package com.app.bookai.barber.infrastructure.persistence.adapter;
 
 import com.app.bookai.barber.domain.exception.NotFoundByName;
-import com.app.bookai.barber.infrastructure.persistence.entity.DayOffEntity;
 import com.app.bookai.shared.exception.NotFoundByPhoneNumber;
 import com.app.bookai.barber.domain.model.Barber;
 import com.app.bookai.barber.domain.model.WorkingHour;
@@ -24,6 +23,7 @@ public class BarberPersistenceAdapter implements BarberRepository {
     private final BarberPersistenceMapper barberPersistenceMapper;
 
     @Override
+    @Transactional
     public Barber save(Barber barber) {
 
         BarberEntity entity =
@@ -128,6 +128,11 @@ public class BarberPersistenceAdapter implements BarberRepository {
 
         Barber barber = barberPersistenceMapper.toDomain(barberEntity);
         return Optional.of(barber);
+    }
+
+    @Override
+    public boolean existsDayOffByName(String name) {
+        return jpaBarberRepository.existsDayOffByName(name);
     }
 
 }
