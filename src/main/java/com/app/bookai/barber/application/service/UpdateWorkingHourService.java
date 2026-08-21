@@ -21,7 +21,7 @@ public class UpdateWorkingHourService implements UpdateWorkingHourUseCase {
     @Override
     @Transactional
     public Barber update(String name, List<WorkingHour> workingHours) {
-        if (workingHours.isEmpty() || workingHours == null) {
+        if (workingHours.isEmpty()) {
             throw new EmptyWorkingHourListException();
         }
         List<WorkingHour> workingHoursCopy = new ArrayList<>(workingHours);
