@@ -25,16 +25,29 @@ public class Barber {
     private List<WorkingHourOverride> workingHourOverrides;
 
 
-    void updateBarber(Barber barber) {
-        if (barber != null ) {
-            this.isActive = barber.getIsActive();
-            this.name = barber.getName();
-            this.phoneNumber = barber.getPhoneNumber();
-            this.role = barber.getRole();
-            this.workingHours = barber.getWorkingHours();
-            this.dayOffs = barber.getDayOffs();
-            this.workingHours = barber.getWorkingHours();
+    public void updateName(String newName) {
+        if (newName!=null ) {
+            this.name = newName;
             this.updatedAt = LocalDateTime.now();
         }
     }
+    public void updatePhoneNumber(String newPhoneNumber) {
+        if (newPhoneNumber!=null ) {
+            this.phoneNumber = newPhoneNumber;
+            this.updatedAt = LocalDateTime.now();
+        }
+    }
+    public void updateRole(RoleType newRole) {
+        if (newRole!=null ) {
+            this.role = newRole;
+            this.updatedAt = LocalDateTime.now();
+        }
+    }
+    public void updateWorkingHours(List<WorkingHour> newWorkingHours) {
+        if (newWorkingHours!=null ) {
+            this.workingHours = newWorkingHours;
+            this.updatedAt = LocalDateTime.now();
+        }
+    }
+
 }

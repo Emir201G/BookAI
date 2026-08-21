@@ -25,6 +25,7 @@ public class BarberController {
     private final CreateDayOffUseCase createDayOffUseCase;
     private final UpdateWorkingHourUseCase updateWorkingHourUseCase;
     private final UpdateDayOffUseCase updateDayOffUseCase;
+    private final UpdateNameUseCase updateNameUseCase;
     private final BarberMapper barberMapper;
 
     @PostMapping("/create")
@@ -86,4 +87,11 @@ public class BarberController {
         Barber barber = updateDayOffUseCase.updateDayOff(name, date, dayOff);
         return ResponseEntity.ok(barberMapper.toDTO(barber));
     }
+
+    @PostMapping("/update/name/{name}/{newName}")
+    public ResponseEntity<BarberResponseDTO> updateName(@PathVariable String name,@PathVariable String newName) {
+        Barber barber = updateNameUseCase.updateName(name, newName);
+        return ResponseEntity.ok(barberMapper.toDTO(barber));
+    }
+
 }
