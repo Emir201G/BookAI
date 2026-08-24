@@ -1,8 +1,7 @@
 package com.app.bookai.barber.application.service;
 
-import com.app.bookai.barber.domain.exception.EmptyDayOffListException;
 import com.app.bookai.barber.domain.exception.EmptyWorkingHourOverrideListException;
-import com.app.bookai.barber.domain.exception.NotFoundByName;
+import com.app.bookai.barber.domain.exception.NotFoundByNameException;
 import com.app.bookai.barber.domain.model.Barber;
 import com.app.bookai.barber.domain.model.WorkingHourOverride;
 import com.app.bookai.barber.domain.port.in.CreateWorkingHourOverrideUseCase;
@@ -26,7 +25,7 @@ public class CreateWorkingHourOverrideService implements CreateWorkingHourOverri
             throw new EmptyWorkingHourOverrideListException();
         }
         Barber barber = barberRepository.findByName(name)
-                .orElseThrow(() -> new NotFoundByName(name));
+                .orElseThrow(() -> new NotFoundByNameException(name));
 
         barber.updateWorkingHoursOverride(workingHourOverrides);
         return barberRepository.save(barber);

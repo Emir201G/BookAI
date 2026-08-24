@@ -1,7 +1,7 @@
 package com.app.bookai.barber.application.service;
 
 import com.app.bookai.barber.domain.exception.EmptyWorkingHourListException;
-import com.app.bookai.barber.domain.exception.NotFoundByName;
+import com.app.bookai.barber.domain.exception.NotFoundByNameException;
 import com.app.bookai.barber.domain.model.Barber;
 import com.app.bookai.barber.domain.model.WorkingHour;
 import com.app.bookai.barber.domain.port.in.UpdateWorkingHourUseCase;
@@ -28,7 +28,7 @@ public class UpdateWorkingHourService implements UpdateWorkingHourUseCase {
         workingHoursCopy.addAll(workingHours);
 
         Barber barber = barberRepository.findByName(name)
-                .orElseThrow(() -> new NotFoundByName(name));
+                .orElseThrow(() -> new NotFoundByNameException(name));
 
         barber.setWorkingHours(workingHoursCopy);
 

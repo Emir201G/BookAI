@@ -1,8 +1,8 @@
 package com.app.bookai.barber.application.service;
 
 import com.app.bookai.barber.domain.exception.EmptyDayOffListException;
-import com.app.bookai.barber.domain.exception.NotFoundByName;
-import com.app.bookai.barber.domain.exception.NotFundByDate;
+import com.app.bookai.barber.domain.exception.NotFoundByNameException;
+import com.app.bookai.barber.domain.exception.NotFundByDateException;
 import com.app.bookai.barber.domain.model.Barber;
 import com.app.bookai.barber.domain.model.DayOff;
 import com.app.bookai.barber.domain.port.in.UpdateDayOffUseCase;
@@ -27,7 +27,7 @@ public class UpdateDayOffService implements UpdateDayOffUseCase {
     ) {
 
         Barber barber = barberRepository.findByName(name)
-                .orElseThrow(() -> new NotFoundByName(name));
+                .orElseThrow(() -> new NotFoundByNameException(name));
 
         if (barber.getDayOffs() == null || barber.getDayOffs().isEmpty()) {
             throw new EmptyDayOffListException();
@@ -37,7 +37,7 @@ public class UpdateDayOffService implements UpdateDayOffUseCase {
                 .stream()
                 .filter(d -> d.getDate().equals(date))
                 .findFirst()
-                .orElseThrow(() -> new NotFundByDate(date));
+                .orElseThrow(() -> new NotFundByDateException(date));
 
         dayOff.setDate(updatedDayOff.getDate());
         dayOff.setReason(updatedDayOff.getReason());

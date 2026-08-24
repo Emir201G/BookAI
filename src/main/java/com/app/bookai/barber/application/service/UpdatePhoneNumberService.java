@@ -1,7 +1,6 @@
 package com.app.bookai.barber.application.service;
 
-import com.app.bookai.barber.domain.exception.NameAlreadyExistsException;
-import com.app.bookai.barber.domain.exception.NotFoundByName;
+import com.app.bookai.barber.domain.exception.NotFoundByNameException;
 import com.app.bookai.barber.domain.model.Barber;
 import com.app.bookai.barber.domain.port.in.UpdatePhoneNumberUseCase;
 import com.app.bookai.barber.domain.port.out.BarberRepository;
@@ -22,7 +21,7 @@ public class UpdatePhoneNumberService implements UpdatePhoneNumberUseCase {
             throw new PhoneNumberAlreadyExistsException(newPhone);
         }
         Barber barber = barberRepository.findByName(name)
-                .orElseThrow(() -> new NotFoundByName(name));
+                .orElseThrow(() -> new NotFoundByNameException(name));
 
         barber.updatePhoneNumber(newPhone);
         return barberRepository.save(barber);

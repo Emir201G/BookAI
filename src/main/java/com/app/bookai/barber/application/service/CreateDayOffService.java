@@ -1,7 +1,7 @@
 package com.app.bookai.barber.application.service;
 
 import com.app.bookai.barber.domain.exception.EmptyDayOffListException;
-import com.app.bookai.barber.domain.exception.NotFoundByName;
+import com.app.bookai.barber.domain.exception.NotFoundByNameException;
 import com.app.bookai.barber.domain.model.Barber;
 import com.app.bookai.barber.domain.model.DayOff;
 import com.app.bookai.barber.domain.port.in.CreateDayOffUseCase;
@@ -29,7 +29,7 @@ public class CreateDayOffService implements CreateDayOffUseCase {
         newDayOffs.addAll(dayOffs);
 
         Barber barber = barberRepository.findByName(name)
-                .orElseThrow(() -> new NotFoundByName(name));
+                .orElseThrow(() -> new NotFoundByNameException(name));
 
         barber.setDayOffs(newDayOffs);
 

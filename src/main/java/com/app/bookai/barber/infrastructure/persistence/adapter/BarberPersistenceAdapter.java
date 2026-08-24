@@ -1,6 +1,6 @@
 package com.app.bookai.barber.infrastructure.persistence.adapter;
 
-import com.app.bookai.barber.domain.exception.NotFoundByName;
+import com.app.bookai.barber.domain.exception.NotFoundByNameException;
 import com.app.bookai.shared.exception.NotFoundByPhoneNumber;
 import com.app.bookai.barber.domain.model.Barber;
 import com.app.bookai.barber.domain.model.WorkingHour;
@@ -110,7 +110,7 @@ public class BarberPersistenceAdapter implements BarberRepository {
     @Override
     public Optional<Barber> findByName(String name) {
 
-        BarberEntity barberEntity = jpaBarberRepository.findByName(name).orElseThrow(() -> new NotFoundByName(name));
+        BarberEntity barberEntity = jpaBarberRepository.findByName(name).orElseThrow(() -> new NotFoundByNameException(name));
 
         Barber barber = barberPersistenceMapper.toDomain(barberEntity);
         return Optional.of(barber);

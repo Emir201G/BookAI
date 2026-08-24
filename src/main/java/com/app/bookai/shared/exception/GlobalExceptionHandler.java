@@ -46,9 +46,9 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(phoneNumberAlreadyExistsException, HttpStatus.BAD_REQUEST, request);
     }
 
-    @ExceptionHandler(NotFoundByName.class)
+    @ExceptionHandler(NotFoundByNameException.class)
     public ResponseEntity<ErrorResponse> handleNotFoundByName(
-            NotFoundByName notFoundByName,
+            NotFoundByNameException notFoundByName,
             HttpServletRequest request
     ) {
         return buildErrorResponse(notFoundByName, HttpStatus.NOT_FOUND, request);
@@ -70,9 +70,9 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(emptyWorkingHourListException, HttpStatus.BAD_REQUEST, request);
     }
 
-    @ExceptionHandler(NotFundByDate.class)
+    @ExceptionHandler(NotFundByDateException.class)
     public ResponseEntity<ErrorResponse> handleNotFundByDate(
-            NotFundByDate notFundByDate,
+            NotFundByDateException notFundByDate,
             HttpServletRequest request
     ) {
         return buildErrorResponse(notFundByDate, HttpStatus.NOT_FOUND, request);
