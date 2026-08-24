@@ -1,6 +1,8 @@
 package com.app.bookai.shared.exception;
 
 import com.app.bookai.barber.domain.exception.*;
+import com.app.bookai.treatment.domain.exception.NameTreatmentAlreadyExistsException;
+import com.app.bookai.treatment.domain.exception.NotFoundByNameTreatmentException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -92,5 +94,20 @@ public class GlobalExceptionHandler {
             HttpServletRequest request
     ) {
         return buildErrorResponse(emptyWorkingHourOverrideListException, HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler(NotFoundByNameTreatmentException.class)
+    public ResponseEntity<ErrorResponse> handleNotFoundByNameTreatmentException(
+            NotFoundByNameTreatmentException notFoundByNameTreatmentException,
+            HttpServletRequest request
+    ){
+        return buildErrorResponse(notFoundByNameTreatmentException, HttpStatus.NOT_FOUND, request);
+    }
+    @ExceptionHandler(NameTreatmentAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleNameTreatmentAlreadyExistsException(
+            NameTreatmentAlreadyExistsException nameTreatmentAlreadyExistsException,
+            HttpServletRequest request
+    ){
+        return buildErrorResponse(nameTreatmentAlreadyExistsException, HttpStatus.BAD_REQUEST, request);
     }
 }
