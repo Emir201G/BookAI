@@ -19,4 +19,9 @@ public class Treatment {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+
+    public void updatePrice (BigDecimal price){
+        this.price=price;
+        this.updatedAt=LocalDateTime.now();
+    }
 }

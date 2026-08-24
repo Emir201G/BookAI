@@ -42,7 +42,6 @@ public class TreatmentPersistenceAdapter implements TreatmentRepository {
 
     @Override
     public boolean existsByName(String name) {
-
         return treatmentRepository.existsByName(name);
     }
 

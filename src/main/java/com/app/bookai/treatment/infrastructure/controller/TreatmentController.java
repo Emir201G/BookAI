@@ -4,14 +4,12 @@ import com.app.bookai.treatment.application.dto.CreateTreatmentDTO;
 import com.app.bookai.treatment.application.dto.TreatmentResponseDTO;
 import com.app.bookai.treatment.application.mapper.TreatmentMapper;
 import com.app.bookai.treatment.domain.model.Treatment;
-import com.app.bookai.treatment.domain.port.in.CreateTreatmentUseCase;
-import com.app.bookai.treatment.domain.port.in.DeleteTreatmentByNameUseCase;
-import com.app.bookai.treatment.domain.port.in.GetAllTreatmentUseCase;
-import com.app.bookai.treatment.domain.port.in.GetTreatmentByNameUseCase;
+import com.app.bookai.treatment.domain.port.in.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -23,6 +21,7 @@ public class TreatmentController {
     private final GetAllTreatmentUseCase getAllTreatmentUseCase;
     private final GetTreatmentByNameUseCase getTreatmentByNameUseCase;
     private final DeleteTreatmentByNameUseCase deleteTreatmentByNameUseCase;
+    private final UpdatePriceTreatmentUseCase updatePriceTreatmentUseCase;
     private final TreatmentMapper treatmentMapper;
 
     @PostMapping("/create")
@@ -57,5 +56,12 @@ public class TreatmentController {
     public ResponseEntity<?> deleteTreatment(@PathVariable String name) {
         deleteTreatmentByNameUseCase.deleteTreatmentByName(name);
         return ResponseEntity.ok("delete");
+    }
+
+    @PostMapping("/update-price/{name}/{price}")
+    public ResponseEntity<TreatmentResponseDTO> updatePrice(@PathVariable String name,
+                                                            @PathVariable BigDecimal price) {
+        Treatment treatment = updatePriceTreatmentUseCase.updatePriceTreatment(name, price);
+        return ResponseEntity.ok(treatmentMapper.toTreatmentResponseDTO(treatment));
     }
 }
