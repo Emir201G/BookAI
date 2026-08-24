@@ -28,7 +28,7 @@ public class TreatmentPersistenceAdapter implements TreatmentRepository {
 
     @Override
     public void remove(String name) {
-
+        treatmentRepository.deleteByName(name);
     }
 
     @Override

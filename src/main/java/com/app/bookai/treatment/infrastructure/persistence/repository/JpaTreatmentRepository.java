@@ -10,5 +10,6 @@ public interface JpaTreatmentRepository extends JpaRepository<TreatmentEntity,Lo
 
     Optional<TreatmentEntity> findByName(String name);
     boolean existsByName(String name);
+    void deleteByName(String name);
 
 }

@@ -5,9 +5,9 @@ import com.app.bookai.treatment.application.dto.TreatmentResponseDTO;
 import com.app.bookai.treatment.application.mapper.TreatmentMapper;
 import com.app.bookai.treatment.domain.model.Treatment;
 import com.app.bookai.treatment.domain.port.in.CreateTreatmentUseCase;
+import com.app.bookai.treatment.domain.port.in.DeleteTreatmentByNameUseCase;
 import com.app.bookai.treatment.domain.port.in.GetAllTreatmentUseCase;
 import com.app.bookai.treatment.domain.port.in.GetTreatmentByNameUseCase;
-import com.app.bookai.treatment.domain.port.out.TreatmentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +21,8 @@ public class TreatmentController {
 
     private final CreateTreatmentUseCase createTreatmentUseCase;
     private final GetAllTreatmentUseCase getAllTreatmentUseCase;
-    private final GetTreatmentByNameUseCase  getTreatmentByNameUseCase;
+    private final GetTreatmentByNameUseCase getTreatmentByNameUseCase;
+    private final DeleteTreatmentByNameUseCase deleteTreatmentByNameUseCase;
     private final TreatmentMapper treatmentMapper;
 
     @PostMapping("/create")
@@ -50,5 +51,11 @@ public class TreatmentController {
 
         Treatment treatment = getTreatmentByNameUseCase.getTreatmentByName(name);
         return ResponseEntity.ok(treatmentMapper.toTreatmentResponseDTO(treatment));
+    }
+
+    @DeleteMapping("/delete/{name}")
+    public ResponseEntity<?> deleteTreatment(@PathVariable String name) {
+        deleteTreatmentByNameUseCase.deleteTreatmentByName(name);
+        return ResponseEntity.ok("delete");
     }
 }
