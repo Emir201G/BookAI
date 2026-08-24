@@ -9,6 +9,7 @@ import com.app.bookai.treatment.infrastructure.persistence.repository.JpaTreatme
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -43,5 +44,12 @@ public class TreatmentPersistenceAdapter implements TreatmentRepository {
     public boolean existsByName(String name) {
 
         return treatmentRepository.existsByName(name);
+    }
+
+    @Override
+    public List<Treatment> findAll() {
+        List<TreatmentEntity> treatments = treatmentRepository.findAll();
+
+        return treatmentPersistenceMapper.toDomain(treatments);
     }
 }

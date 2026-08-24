@@ -5,12 +5,12 @@ import com.app.bookai.treatment.application.dto.TreatmentResponseDTO;
 import com.app.bookai.treatment.application.mapper.TreatmentMapper;
 import com.app.bookai.treatment.domain.model.Treatment;
 import com.app.bookai.treatment.domain.port.in.CreateTreatmentUseCase;
+import com.app.bookai.treatment.domain.port.in.GetAllTreatmentUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/treatment")
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TreatmentController {
 
     private final CreateTreatmentUseCase createTreatmentUseCase;
+    private final GetAllTreatmentUseCase getAllTreatmentUseCase;
     private final TreatmentMapper treatmentMapper;
 
     @PostMapping("/create")
@@ -32,5 +33,12 @@ public class TreatmentController {
         return ResponseEntity.ok(
                 treatmentMapper.toTreatmentResponseDTO(saved)
         );
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<TreatmentResponseDTO>> getAllTreatment() {
+        List<Treatment> treatments = getAllTreatmentUseCase.getAllTreatment();
+
+        return ResponseEntity.ok(treatmentMapper.toTreatmentResponseDTO(treatments));
     }
 }

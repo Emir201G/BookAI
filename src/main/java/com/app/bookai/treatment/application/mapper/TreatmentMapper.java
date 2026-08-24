@@ -7,6 +7,8 @@ import com.app.bookai.treatment.domain.port.in.CreateTreatmentUseCase;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface TreatmentMapper {
     @Mapping(target = "id",ignore = true)
@@ -14,4 +16,5 @@ public interface TreatmentMapper {
     @Mapping(target = "updatedAt", ignore = true)
     Treatment toDomainTreatment(CreateTreatmentDTO createTreatmentDTO);
     TreatmentResponseDTO toTreatmentResponseDTO(Treatment treatment);
+    List<TreatmentResponseDTO> toTreatmentResponseDTO(List<Treatment> treatments);
 }

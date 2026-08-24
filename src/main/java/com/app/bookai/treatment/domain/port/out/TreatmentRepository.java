@@ -2,6 +2,7 @@ package com.app.bookai.treatment.domain.port.out;
 
 import com.app.bookai.treatment.domain.model.Treatment;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface TreatmentRepository {
@@ -9,4 +10,5 @@ public interface TreatmentRepository {
     void remove(String name);
     Optional<Treatment> findByName(String name);
     boolean existsByName(String name);
+    List<Treatment> findAll();
 }
