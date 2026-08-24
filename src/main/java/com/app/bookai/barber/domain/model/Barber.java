@@ -26,26 +26,36 @@ public class Barber {
 
 
     public void updateName(String newName) {
-        if (newName!=null ) {
+        if (newName != null) {
             this.name = newName;
             this.updatedAt = LocalDateTime.now();
         }
     }
+
     public void updatePhoneNumber(String newPhoneNumber) {
-        if (newPhoneNumber!=null ) {
+        if (newPhoneNumber != null) {
             this.phoneNumber = newPhoneNumber;
             this.updatedAt = LocalDateTime.now();
         }
     }
+
     public void updateRole(RoleType newRole) {
-        if (newRole!=null ) {
+        if (newRole != null) {
             this.role = newRole;
             this.updatedAt = LocalDateTime.now();
         }
     }
+
     public void updateWorkingHours(List<WorkingHour> newWorkingHours) {
-        if (newWorkingHours!=null ) {
+        if (newWorkingHours != null) {
             this.workingHours = newWorkingHours;
+            this.updatedAt = LocalDateTime.now();
+        }
+    }
+
+    public void updateWorkingHoursOverride(List<WorkingHourOverride> newWorkingHourOverrides) {
+        if (newWorkingHourOverrides != null) {
+            this.workingHourOverrides = newWorkingHourOverrides;
             this.updatedAt = LocalDateTime.now();
         }
     }

@@ -77,11 +77,20 @@ public class GlobalExceptionHandler {
     ) {
         return buildErrorResponse(notFundByDate, HttpStatus.NOT_FOUND, request);
     }
+
     @ExceptionHandler(NameAlreadyExistsException.class)
     public ResponseEntity<ErrorResponse> handleNameAlreadyExistsException(
             NameAlreadyExistsException nameAlreadyExistsException,
             HttpServletRequest request
-    ){
+    ) {
         return buildErrorResponse(nameAlreadyExistsException, HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler(EmptyWorkingHourOverrideListException.class)
+    public ResponseEntity<ErrorResponse> handleEmptyWorkingHourOverrideListException(
+            EmptyWorkingHourOverrideListException emptyWorkingHourOverrideListException,
+            HttpServletRequest request
+    ) {
+        return buildErrorResponse(emptyWorkingHourOverrideListException, HttpStatus.BAD_REQUEST, request);
     }
 }

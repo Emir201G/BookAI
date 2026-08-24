@@ -4,6 +4,7 @@ import com.app.bookai.barber.application.dto.*;
 import com.app.bookai.barber.domain.model.Barber;
 import com.app.bookai.barber.domain.model.DayOff;
 import com.app.bookai.barber.domain.model.WorkingHour;
+import com.app.bookai.barber.domain.model.WorkingHourOverride;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
@@ -35,4 +36,6 @@ public interface BarberMapper {
 
     List<DayOff> toDomainDayOffs(List<CreateDayOffDTO> requestDTO);
     List<WorkingHour> toDomainWorkingHours(List<WorkingHourRequestDTO>  requestDTO);
+
+    List<WorkingHourOverride> toDomainWorkingHourOverride(List<CreateWorkingHourOverrideDTO> requestDTO);
 }

@@ -33,7 +33,9 @@ public class BarberPersistenceAdapter implements BarberRepository {
         if (entity.getWorkingHours() != null) {
             entity.getWorkingHours().forEach(workingHour -> workingHour.setBarber(entity));
         }
-
+        if (entity.getWorkingHourOverrides() != null) {
+            entity.getWorkingHourOverrides().forEach(workingHourOverride -> workingHourOverride.setBarber(entity));
+        }
         BarberEntity saved = jpaBarberRepository.save(entity);
 
         return barberPersistenceMapper.toDomain(saved);

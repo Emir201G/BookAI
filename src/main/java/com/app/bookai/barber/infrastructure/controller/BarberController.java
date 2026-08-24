@@ -5,6 +5,7 @@ import com.app.bookai.barber.application.mapper.BarberMapper;
 import com.app.bookai.barber.domain.model.Barber;
 import com.app.bookai.barber.domain.model.DayOff;
 import com.app.bookai.barber.domain.model.WorkingHour;
+import com.app.bookai.barber.domain.model.WorkingHourOverride;
 import com.app.bookai.barber.domain.port.in.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,7 @@ public class BarberController {
     private final UpdateDayOffUseCase updateDayOffUseCase;
     private final UpdateNameUseCase updateNameUseCase;
     private final UpdatePhoneNumberUseCase updatePhoneNumberUseCase;
+    private final CreateWorkingHourOverrideUseCase createWorkingHourOverrideUseCase;
     private final BarberMapper barberMapper;
 
     @PostMapping("/create")
@@ -101,4 +103,15 @@ public class BarberController {
         return ResponseEntity.ok(barberMapper.toDTO(barber));
     }
 
+    @PostMapping("/create/working-hour-override/{name}")
+    public ResponseEntity<BarberResponseDTO> createWorkingHourOverride(
+            @RequestBody  List<CreateWorkingHourOverrideDTO> createWorkingHourOverrideDTOS,
+            @PathVariable String name
+            ){
+        List<WorkingHourOverride> workingHourOverrides = barberMapper.toDomainWorkingHourOverride(createWorkingHourOverrideDTOS);
+
+        Barber barber = createWorkingHourOverrideUseCase.createWorkingHourOverride(workingHourOverrides,name);
+
+        return ResponseEntity.ok(barberMapper.toDTO(barber));
+    }
 }
