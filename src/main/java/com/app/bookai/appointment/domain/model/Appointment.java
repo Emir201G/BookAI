@@ -23,4 +23,10 @@ public class Appointment {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private List<AppointmentTreatment> treatments;
+
+
+
+    public void updateStatus(AppointmentStatus status) {
+        this.status = status;
+    }
 }

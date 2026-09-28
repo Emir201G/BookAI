@@ -12,6 +12,7 @@ import java.time.LocalTime;
 @Builder
 public class WorkingHour {
     private Long id;
+    private Long barberId;
     private DayOfWeek dayOfWeek;
     private LocalTime startTime;
     private LocalTime endTime;

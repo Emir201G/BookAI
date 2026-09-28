@@ -7,6 +7,8 @@ import com.app.bookai.treatment.domain.port.out.TreatmentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class CreateTreatmentService implements CreateTreatmentUseCase {
@@ -18,7 +20,7 @@ public class CreateTreatmentService implements CreateTreatmentUseCase {
         if(treatmentRepository.existsByName(treatment.getName())) {
             throw new NameTreatmentAlreadyExistsException(treatment.getName());
         }
-
+        treatment.setCreatedAt(LocalDateTime.now());
         return treatmentRepository.save(treatment);
     }
 }

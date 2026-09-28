@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Entity
 @Getter
 @Setter
@@ -23,4 +25,8 @@ public class AppointmentTreatmentEntity {
 
     @Column(name = "treatment_id", nullable = false)
     private Long treatmentId;
+
+    private BigDecimal price;
+
+    private Integer durationMinutes;
 }

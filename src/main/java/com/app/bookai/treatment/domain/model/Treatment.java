@@ -24,4 +24,8 @@ public class Treatment {
         this.price=price;
         this.updatedAt=LocalDateTime.now();
     }
+
+    public void updateIsActive(Boolean isActive){
+        this.isActive=isActive;
+    }
 }

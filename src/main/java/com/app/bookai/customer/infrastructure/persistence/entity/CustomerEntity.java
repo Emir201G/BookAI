@@ -24,7 +24,6 @@ public class CustomerEntity {
     private RoleType role;
     @Column(unique = true, name = "created_at")
     private LocalDateTime createdAt;
-
     @Column(unique = true, name = "update_at")
     private LocalDateTime updatedAt;
 }

@@ -7,5 +7,5 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface UpdateDayOffUseCase {
-    Barber updateDayOff(String name, LocalDate date, DayOff dayOffs);
+    DayOff updateDayOff(String name, LocalDate date, DayOff dayOffs);
 }

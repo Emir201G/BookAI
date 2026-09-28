@@ -20,14 +20,16 @@ public class UpdateDayOffService implements UpdateDayOffUseCase {
 
     @Override
     @Transactional
-    public Barber updateDayOff(
+    public DayOff updateDayOff(
             String name,
             LocalDate date,
             DayOff updatedDayOff
     ) {
 
         Barber barber = barberRepository.findByName(name)
-                .orElseThrow(() -> new NotFoundByNameException(name));
+                .orElseThrow(
+                        () -> new NotFoundByNameException(name)
+                );
 
         if (barber.getDayOffs() == null || barber.getDayOffs().isEmpty()) {
             throw new EmptyDayOffListException();
@@ -37,11 +39,15 @@ public class UpdateDayOffService implements UpdateDayOffUseCase {
                 .stream()
                 .filter(d -> d.getDate().equals(date))
                 .findFirst()
-                .orElseThrow(() -> new NotFundByDateException(date));
+                .orElseThrow(
+                        () -> new NotFundByDateException(date)
+                );
 
         dayOff.setDate(updatedDayOff.getDate());
         dayOff.setReason(updatedDayOff.getReason());
 
-        return barberRepository.save(barber);
+        barberRepository.save(barber);
+
+        return dayOff;
     }
 }

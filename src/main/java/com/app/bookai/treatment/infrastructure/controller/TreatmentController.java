@@ -22,6 +22,7 @@ public class TreatmentController {
     private final GetTreatmentByNameUseCase getTreatmentByNameUseCase;
     private final DeleteTreatmentByNameUseCase deleteTreatmentByNameUseCase;
     private final UpdatePriceTreatmentUseCase updatePriceTreatmentUseCase;
+    private final UpdateActiveUseCase updateActiveUseCase;
     private final TreatmentMapper treatmentMapper;
 
     @PostMapping("/create")
@@ -63,5 +64,11 @@ public class TreatmentController {
                                                             @PathVariable BigDecimal price) {
         Treatment treatment = updatePriceTreatmentUseCase.updatePriceTreatment(name, price);
         return ResponseEntity.ok(treatmentMapper.toTreatmentResponseDTO(treatment));
+    }
+
+    @PostMapping("/update-active/{name}")
+    public ResponseEntity<?> updateActiveTreatment(@PathVariable String name) {
+        updateActiveUseCase.updateActiveUseCase(name);
+        return ResponseEntity.ok("updateActive");
     }
 }

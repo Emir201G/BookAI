@@ -1,6 +1,8 @@
 package com.app.bookai.shared.exception;
 
 import com.app.bookai.barber.domain.exception.*;
+import com.app.bookai.conversation.domain.exception.ConversationNotFoundException;
+import com.app.bookai.payment.domain.exception.PaymentGatewayException;
 import com.app.bookai.treatment.domain.exception.NameTreatmentAlreadyExistsException;
 import com.app.bookai.treatment.domain.exception.NotFoundByNameTreatmentException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -100,14 +102,31 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleNotFoundByNameTreatmentException(
             NotFoundByNameTreatmentException notFoundByNameTreatmentException,
             HttpServletRequest request
-    ){
+    ) {
         return buildErrorResponse(notFoundByNameTreatmentException, HttpStatus.NOT_FOUND, request);
     }
+
     @ExceptionHandler(NameTreatmentAlreadyExistsException.class)
     public ResponseEntity<ErrorResponse> handleNameTreatmentAlreadyExistsException(
             NameTreatmentAlreadyExistsException nameTreatmentAlreadyExistsException,
             HttpServletRequest request
-    ){
+    ) {
         return buildErrorResponse(nameTreatmentAlreadyExistsException, HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler(PaymentGatewayException.class)
+    public ResponseEntity<ErrorResponse> handlePaymentGatewayException(
+            PaymentGatewayException paymentGatewayException,
+            HttpServletRequest request
+    ) {
+        return buildErrorResponse(paymentGatewayException, HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler(ConversationNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleConversationNotFoundException(
+            ConversationNotFoundException conversationNotFoundException,
+            HttpServletRequest request
+    ){
+        return buildErrorResponse(conversationNotFoundException, HttpStatus.NOT_FOUND, request);
     }
 }

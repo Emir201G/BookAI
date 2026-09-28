@@ -9,8 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-
 @Service
 @RequiredArgsConstructor
 public class UpdateNameCustomerService implements UpdateNameCustomerUseCase {
@@ -19,9 +17,12 @@ public class UpdateNameCustomerService implements UpdateNameCustomerUseCase {
     @Transactional
     @Override
     public Customer updateCustomer(UpdateNameRequestDTO requestDTO) {
-        Customer customer = customerRepository.findByPhoneNumber(requestDTO.phoneNumber())
-                .orElseThrow(() -> new NotFoundByPhoneNumber(requestDTO.phoneNumber()));
+
+        Customer customer = customerRepository
+                .findByPhoneNumber(requestDTO.phoneNumber());
+
         customer.updateNane(requestDTO.name());
+
         return customerRepository.save(customer);
     }
 }

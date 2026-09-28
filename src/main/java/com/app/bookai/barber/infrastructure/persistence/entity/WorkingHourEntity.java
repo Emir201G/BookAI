@@ -20,14 +20,12 @@ public class WorkingHourEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Enumerated(EnumType.STRING)
     private DayOfWeek dayOfWeek;
     @Column(name = "start_time")
     private LocalTime startTime;
     @Column(name = "end_time")
     private LocalTime endTime;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "barber_id", nullable = false)
     private BarberEntity barber;

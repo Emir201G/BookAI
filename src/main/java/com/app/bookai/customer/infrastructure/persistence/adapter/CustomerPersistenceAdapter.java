@@ -23,35 +23,46 @@ public class CustomerPersistenceAdapter implements CustomerRepository {
     @Override
     public Customer save(Customer customer) {
         CustomerEntity customerEntity = customerPersistenceMapper.toEntity(customer);
-        CustomerEntity savedEntity = jpaCustomerRepository.save(customerEntity); // Guardar la referencia actualizada
+        CustomerEntity savedEntity = jpaCustomerRepository.save(customerEntity);
         return customerPersistenceMapper.toDomain(savedEntity);
     }
 
     @Override
     public List<Customer> getAllCustomers() {
-        List<CustomerEntity> customerEntities = jpaCustomerRepository.findAll();
-        List<Customer> customers = customerPersistenceMapper.toDomain(customerEntities);
-        return customers;
+        List<CustomerEntity> customerEntities = jpaCustomerRepository
+                .findAll();
+
+        return customerPersistenceMapper
+                .toDomain(customerEntities);
     }
 
     @Override
-    public Optional<Customer> findByPhoneNumber(String phoneNumber) {
-        CustomerEntity customerEntity = jpaCustomerRepository.findByPhoneNumber(phoneNumber)
-                .orElseThrow(() -> new NotFoundByPhoneNumber(phoneNumber));
-        Customer customer = customerPersistenceMapper.toDomain(customerEntity);
-        return Optional.of(customer);
+    public Customer findByPhoneNumber(String phoneNumber) {
+        CustomerEntity customerEntity = jpaCustomerRepository
+                .findByPhoneNumber(phoneNumber)
+                .orElseThrow(
+                        () -> new NotFoundByPhoneNumber(phoneNumber)
+                );
+
+        return customerPersistenceMapper
+                .toDomain(customerEntity);
     }
 
 
     @Override
     public boolean existsByPhoneNumber(String phoneNumber) {
-        return jpaCustomerRepository.existsByPhoneNumber(phoneNumber);
+        return jpaCustomerRepository
+                .existsByPhoneNumber(phoneNumber);
     }
 
     @Override
     public void deleteCustomerByPhoneNumber(String phoneNumber) {
-        CustomerEntity customerEntity = jpaCustomerRepository.findByPhoneNumber(phoneNumber)
-                .orElseThrow(() -> new NotFoundByPhoneNumber(phoneNumber));
-        jpaCustomerRepository.delete(customerEntity);
+        CustomerEntity customerEntity = jpaCustomerRepository
+                .findByPhoneNumber(phoneNumber)
+                .orElseThrow(
+                        () -> new NotFoundByPhoneNumber(phoneNumber)
+                );
+        jpaCustomerRepository
+                .delete(customerEntity);
     }
 }

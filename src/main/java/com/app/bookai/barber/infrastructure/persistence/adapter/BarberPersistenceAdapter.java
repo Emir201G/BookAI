@@ -1,6 +1,10 @@
 package com.app.bookai.barber.infrastructure.persistence.adapter;
 
 import com.app.bookai.barber.domain.exception.NotFoundByNameException;
+import com.app.bookai.barber.domain.model.DayOff;
+import com.app.bookai.barber.domain.model.WorkingHourOverride;
+import com.app.bookai.barber.infrastructure.persistence.entity.DayOffEntity;
+import com.app.bookai.barber.infrastructure.persistence.entity.WorkingHourOverrideEntity;
 import com.app.bookai.shared.exception.NotFoundByPhoneNumber;
 import com.app.bookai.barber.domain.model.Barber;
 import com.app.bookai.barber.domain.model.WorkingHour;
@@ -71,15 +75,11 @@ public class BarberPersistenceAdapter implements BarberRepository {
 
         BarberEntity entity = jpaBarberRepository.findByPhoneNumber(phoneNumber).orElseThrow(() -> new NotFoundByPhoneNumber(phoneNumber));
 
-        System.out.println("ANTES: " + entity.getWorkingHours().size());
-
         entity.getWorkingHours().clear();
 
         if (workingHours != null && !workingHours.isEmpty()) {
 
             List<WorkingHourEntity> workingHourEntities = barberPersistenceMapper.toWorkingHourEntity(workingHours);
-
-            System.out.println("MAPPER ENTITY: " + workingHourEntities.size());
 
             workingHourEntities.forEach(workingHourEntity -> {
 
@@ -89,9 +89,6 @@ public class BarberPersistenceAdapter implements BarberRepository {
                 entity.getWorkingHours().add(workingHourEntity);
             });
         }
-
-        System.out.println("DESPUES: " + entity.getWorkingHours().size());
-
         jpaBarberRepository.save(entity);
     }
 
@@ -121,5 +118,105 @@ public class BarberPersistenceAdapter implements BarberRepository {
         return jpaBarberRepository.existsByName(name);
     }
 
+    @Transactional
+    @Override
+    public Barber addWorkingHour(String name, WorkingHour workingHour) {
+
+        BarberEntity barberEntity = jpaBarberRepository
+                .findByName(name)
+                .orElseThrow(() -> new NotFoundByNameException(name));
+
+        WorkingHourEntity workingHourEntity =
+                barberPersistenceMapper.toWorkingHourEntity(workingHour);
+
+        workingHourEntity.setId(null);
+        workingHourEntity.setBarber(barberEntity);
+
+        barberEntity.getWorkingHours().add(workingHourEntity);
+
+        return barberPersistenceMapper.toDomain(barberEntity);
+    }
+
+    @Transactional
+    @Override
+    public Barber addDayOff(String name, DayOff dayOff) {
+
+        BarberEntity barberEntity = jpaBarberRepository
+                .findByName(name)
+                .orElseThrow(() -> new NotFoundByNameException(name));
+
+        DayOffEntity dayOffEntity =
+                barberPersistenceMapper.toDayOffEntity(dayOff);
+        dayOffEntity.setId(null);
+        dayOffEntity.setBarber(barberEntity);
+
+        barberEntity.getDayOffs().add(dayOffEntity);
+
+        return barberPersistenceMapper.toDomain(barberEntity);
+    }
+
+    @Transactional
+    @Override
+    public Barber addWorkingHourOverride(String name, WorkingHourOverride workingHourOverride) {
+
+        BarberEntity barberEntity = jpaBarberRepository
+                .findByName(name)
+                .orElseThrow(() -> new NotFoundByNameException(name));
+
+        WorkingHourOverrideEntity workingHourOverrideEntity =
+                barberPersistenceMapper.toWorkingHourOverrideEntity(workingHourOverride);
+
+        workingHourOverrideEntity.setId(null);
+        workingHourOverrideEntity.setBarber(barberEntity);
+
+        barberEntity.getWorkingHourOverrides().add(workingHourOverrideEntity);
+        return barberPersistenceMapper.toDomain(barberEntity);
+    }
+
+    @Override
+    public List<WorkingHour> getWorkingHours(String name) {
+
+        BarberEntity entity = jpaBarberRepository.
+                findByName(name)
+                .orElseThrow(
+                        () -> new NotFoundByNameException(name));
+
+        List<WorkingHourEntity> workingHourEntities = jpaBarberRepository
+                .findWorkingHoursByBarberName(entity.getName());
+
+        return barberPersistenceMapper.
+                toWorkingHour(workingHourEntities);
+    }
+
+    @Override
+    public List<DayOff> getDayOffs(String name) {
+
+        BarberEntity entity = jpaBarberRepository
+                .findByName(name)
+                .orElseThrow(
+                        () -> new NotFoundByNameException(name)
+                );
+        List<DayOffEntity> dayOffEntities = jpaBarberRepository
+                .findDayOffsByBarberName(entity.getName());
+
+        return barberPersistenceMapper
+                .toDayOff(dayOffEntities);
+    }
+
+    @Override
+    public List<WorkingHourOverride> getWorkingHourOverride(String name) {
+
+        BarberEntity entity = jpaBarberRepository
+                .findByName(name)
+                .orElseThrow(
+                        () -> new NotFoundByNameException(name)
+                );
+
+        List<WorkingHourOverrideEntity> overrides = jpaBarberRepository
+                .findWorkingHourOverridesByBarberName(name);
+
+        return barberPersistenceMapper
+                .toWorkingHourOverride(overrides);
+    }
 
 }

@@ -20,18 +20,21 @@ public class UpdateWorkingHourService implements UpdateWorkingHourUseCase {
 
     @Override
     @Transactional
-    public Barber update(String name, List<WorkingHour> workingHours) {
+    public List<WorkingHour> update(String name, List<WorkingHour> workingHours) {
         if (workingHours.isEmpty()) {
             throw new EmptyWorkingHourListException();
         }
         List<WorkingHour> workingHoursCopy = new ArrayList<>(workingHours);
-        workingHoursCopy.addAll(workingHours);
 
         Barber barber = barberRepository.findByName(name)
-                .orElseThrow(() -> new NotFoundByNameException(name));
+                .orElseThrow(
+                        () -> new NotFoundByNameException(name)
+                );
 
         barber.setWorkingHours(workingHoursCopy);
 
-        return barberRepository.save(barber);
+        barberRepository.save(barber);
+
+        return workingHoursCopy;
     }
 }

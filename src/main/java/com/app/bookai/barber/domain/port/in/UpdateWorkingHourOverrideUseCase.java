@@ -6,5 +6,5 @@ import com.app.bookai.barber.domain.model.WorkingHourOverride;
 import java.time.LocalDate;
 
 public interface UpdateWorkingHourOverrideUseCase {
-    Barber updateWorkingHourOverride(LocalDate date, String name, WorkingHourOverride workingHourOverride);
+    WorkingHourOverride updateWorkingHourOverride(LocalDate date, String name, WorkingHourOverride workingHourOverride);
 }

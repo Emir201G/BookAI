@@ -1,9 +1,13 @@
 package com.app.bookai.barber.infrastructure.persistence.mapper;
 
 import com.app.bookai.barber.domain.model.Barber;
+import com.app.bookai.barber.domain.model.DayOff;
 import com.app.bookai.barber.domain.model.WorkingHour;
+import com.app.bookai.barber.domain.model.WorkingHourOverride;
 import com.app.bookai.barber.infrastructure.persistence.entity.BarberEntity;
+import com.app.bookai.barber.infrastructure.persistence.entity.DayOffEntity;
 import com.app.bookai.barber.infrastructure.persistence.entity.WorkingHourEntity;
+import com.app.bookai.barber.infrastructure.persistence.entity.WorkingHourOverrideEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -15,7 +19,11 @@ public interface BarberPersistenceMapper {
     BarberEntity toBarberEntity(Barber barber);
     Barber toDomain(BarberEntity barberEntity);
     List<Barber> toDomain(List<BarberEntity> barberEntities);
-
     WorkingHourEntity toWorkingHourEntity(WorkingHour workingHour);
     List<WorkingHourEntity> toWorkingHourEntity(List<WorkingHour> workingHours);
+    DayOffEntity toDayOffEntity(DayOff dayOff);
+    WorkingHourOverrideEntity toWorkingHourOverrideEntity(WorkingHourOverride workingHourOverride);
+    List<WorkingHour> toWorkingHour(List<WorkingHourEntity> workingHoursEntities);
+    List<DayOff> toDayOff(List<DayOffEntity> dayOffEntities);
+    List<WorkingHourOverride> toWorkingHourOverride(List<WorkingHourOverrideEntity> workingHourOverrides);
 }

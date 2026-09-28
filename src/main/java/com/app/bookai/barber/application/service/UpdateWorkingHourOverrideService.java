@@ -19,7 +19,7 @@ public class UpdateWorkingHourOverrideService implements UpdateWorkingHourOverri
 
     @Override
     @Transactional
-    public Barber updateWorkingHourOverride(LocalDate date, String name, WorkingHourOverride workingHourOverride) {
+    public WorkingHourOverride updateWorkingHourOverride(LocalDate date, String name, WorkingHourOverride workingHourOverride) {
 
         if (workingHourOverride == null) {
             throw new EmptyWorkingHourOverrideListException();
@@ -38,6 +38,6 @@ public class UpdateWorkingHourOverrideService implements UpdateWorkingHourOverri
         }else{
             throw new EmptyWorkingHourOverrideListException();
         }
-        return null;
+        return workingHourOverride;
     }
 }

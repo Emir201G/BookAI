@@ -13,6 +13,7 @@ import java.time.LocalTime;
 @Builder
 public class WorkingHourOverride {
     private Long id;
+    private Long barberId;
     private String reason;
     private LocalDate date;
     private LocalTime startTime;
