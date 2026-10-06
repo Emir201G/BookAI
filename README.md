@@ -73,42 +73,7 @@ La idea principal es que el dominio no dependa directamente de:
 
 En lugar de eso, el dominio define **puertos**, y las implementaciones concretas viven en infraestructura.
 
-```text
-                    ┌──────────────────────┐
-                    │      WhatsApp        │
-                    │   Meta Cloud API     │
-                    └──────────┬───────────┘
-                               │
-                               ▼
-                    ┌──────────────────────┐
-                    │   WhatsApp Adapter   │
-                    └──────────┬───────────┘
-                               │
-                               ▼
-              ┌────────────────────────────────┐
-              │          APPLICATION           │
-              │                                │
-              │  Use Cases / Services          │
-              │                                │
-              └───────────────┬────────────────┘
-                              │
-                              ▼
-              ┌────────────────────────────────┐
-              │             DOMAIN             │
-              │                                │
-              │ Entities / Ports / Rules       │
-              │                                │
-              └───────────────┬────────────────┘
-                              │
-                 ┌────────────┴────────────┐
-                 ▼                         ▼
-        ┌──────────────────┐      ┌──────────────────┐
-        │ Persistence      │      │ AI Adapter       │
-        │ Adapter          │      │                  │
-        │                  │      │ Spring AI       │
-        │ JPA / MySQL      │      │ LLM / Tools      │
-        └──────────────────┘      └──────────────────┘
-```
+
 
 ---
 
@@ -240,36 +205,7 @@ La IA no tiene acceso directo a la base de datos.
 
 En su lugar, se utilizan **Tools** que funcionan como una interfaz controlada entre el modelo y el backend.
 
-Por ejemplo:
 
-```text
-                    ┌───────────────────┐
-                    │       LLM         │
-                    │                   │
-                    │ "¿Qué servicios   │
-                    │  existen?"        │
-                    └─────────┬─────────┘
-                              │
-                              ▼
-                    ┌───────────────────┐
-                    │ TreatmentTool     │
-                    └─────────┬─────────┘
-                              │
-                              ▼
-                    ┌───────────────────┐
-                    │ Use Case          │
-                    └─────────┬─────────┘
-                              │
-                              ▼
-                    ┌───────────────────┐
-                    │ Repository        │
-                    └─────────┬─────────┘
-                              │
-                              ▼
-                         ┌─────────┐
-                         │ MySQL   │
-                         └─────────┘
-```
 
 Actualmente se utilizan herramientas relacionadas con:
 
