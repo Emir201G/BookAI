@@ -2,140 +2,92 @@
 
 ### Sistema inteligente de gestión de turnos para barberías mediante WhatsApp
 
-BookAi es un sistema backend desarrollado con **Java y Spring Boot** que permite gestionar turnos, clientes, barberos, servicios y horarios de una barbería mediante **WhatsApp**, utilizando inteligencia artificial para interpretar las solicitudes de los clientes y ejecutar operaciones sobre el sistema.
+BookAi es un proyecto personal de desarrollo backend orientado a la gestión de turnos para barberías.
 
-El proyecto está diseñado siguiendo una **arquitectura hexagonal (Ports & Adapters)**, buscando mantener separada la lógica de negocio de los detalles de infraestructura y de los servicios externos.
+El sistema permite gestionar **clientes, barberos, servicios, horarios y turnos**, utilizando **WhatsApp como principal canal de interacción** e integrando inteligencia artificial para interpretar las solicitudes de los usuarios.
+
+El backend está desarrollado principalmente con **Java y Spring Boot** y utiliza una **Arquitectura Hexagonal (Ports & Adapters)** para separar la lógica de negocio de la infraestructura y de los servicios externos.
 
 > 💡 **BookAi no utiliza un frontend web tradicional.**
-> La interacción con el cliente está pensada principalmente a través de **WhatsApp**, mientras que el backend centraliza la lógica de negocio, persistencia, IA y comunicación con Meta.
+>
+> La interacción con los usuarios está pensada principalmente mediante WhatsApp, mientras que el backend concentra la lógica de negocio, persistencia, inteligencia artificial e integración con servicios externos.
 
 ---
 
-## 📌 Características principales
+# 🎯 Objetivo del proyecto
 
-* 💬 Atención de clientes mediante WhatsApp.
-* 🤖 Integración con modelos de Inteligencia Artificial.
-* 📅 Gestión de turnos.
-* 👤 Gestión de clientes.
-* 💈 Gestión de barberos.
-* ✂️ Gestión de tratamientos/servicios.
-* 🕐 Gestión de horarios laborales.
-* 📆 Gestión de días libres.
-* 🔄 Gestión de excepciones de horarios.
-* 💳 Estructura preparada para integración de pagos.
-* 🗄️ Persistencia con MySQL.
-* 🧩 Arquitectura hexagonal.
-* 🔌 Integración mediante API REST.
-* 🛠️ Tools para permitir que la IA consulte información real del sistema.
-* 🔐 Separación entre dominio, aplicación e infraestructura.
+El objetivo de BookAi es desarrollar un asistente capaz de facilitar la gestión de una barbería a través de conversaciones naturales.
 
----
-
-# 🎯 Objetivo
-
-El objetivo de BookAi es construir un asistente inteligente capaz de actuar como punto de entrada para la gestión de una barbería.
-
-Por ejemplo, un cliente podría enviar por WhatsApp:
+Por ejemplo, un cliente podría escribir:
 
 > "Hola, quiero cortarme el pelo mañana por la tarde."
 
-El sistema debe ser capaz de:
+A partir de esa solicitud, el sistema debe poder:
 
 1. Recibir el mensaje desde WhatsApp.
-2. Identificar al cliente.
+2. Identificar al usuario.
 3. Mantener el contexto de la conversación.
-4. Interpretar la intención mediante IA.
-5. Consultar la información real del sistema.
-6. Verificar disponibilidad.
-7. Solicitar los datos que falten.
+4. Interpretar la intención mediante inteligencia artificial.
+5. Consultar información real del sistema.
+6. Verificar la disponibilidad.
+7. Solicitar los datos que sean necesarios.
 8. Proponer horarios disponibles.
 9. Confirmar la operación con el usuario.
-10. Registrar el turno en la base de datos.
+10. Registrar el turno.
 11. Responder nuevamente mediante WhatsApp.
 
-La IA funciona como una **capa de interpretación**, mientras que las reglas reales del negocio permanecen dentro del backend.
+La inteligencia artificial se utiliza principalmente como **capa de interpretación y comunicación**, mientras que las reglas y operaciones reales permanecen dentro del backend.
+
+---
+
+# ✨ Características principales
+
+* 💬 Interacción mediante WhatsApp.
+* 🤖 Integración con inteligencia artificial.
+* 📅 Gestión de turnos.
+* 👤 Gestión de clientes.
+* 💈 Gestión de barberos.
+* ✂️ Gestión de servicios y tratamientos.
+* 🕐 Gestión de horarios laborales.
+* 📆 Gestión de días libres.
+* 🔄 Gestión de excepciones de horarios.
+* 🔎 Consulta de disponibilidad.
+* 🔌 API REST.
+* 🧠 Herramientas para que la IA consulte información real del sistema.
+* 🗄️ Persistencia con MySQL.
+* 🧩 Arquitectura Hexagonal.
+* 🔗 Integración con WhatsApp Cloud API de Meta.
+* 📩 Recepción de mensajes mediante Webhook.
+* 💳 Estructura preparada para futuras integraciones de pago.
+* 🔐 Separación entre dominio, aplicación e infraestructura.
 
 ---
 
 # 🏗️ Arquitectura
 
-BookAi utiliza una arquitectura basada en **Hexagonal Architecture (Ports & Adapters)**.
+BookAi utiliza una **Arquitectura Hexagonal (Ports & Adapters)**.
 
-La idea principal es que el dominio no dependa directamente de:
+El objetivo es mantener la lógica de negocio independiente de los detalles técnicos y de los servicios externos utilizados por la aplicación.
 
-* MySQL
-* JPA
-* Spring
-* WhatsApp
-* Meta
-* proveedores de IA
-* APIs externas
+Entre las dependencias que se mantienen aisladas se encuentran:
 
-En lugar de eso, el dominio define **puertos**, y las implementaciones concretas viven en infraestructura.
+* Spring.
+* JPA / Hibernate.
+* MySQL.
+* WhatsApp.
+* Meta.
+* Proveedores de inteligencia artificial.
+* APIs externas.
 
+El dominio define las reglas y contratos necesarios, mientras que las implementaciones concretas se encuentran en los adaptadores de infraestructura.
 
-
----
-
-# 📐 Arquitectura de alto nivel
-
-```text
-                         ┌───────────────────┐
-                         │     CUSTOMER      │
-                         │                   │
-                         │    WhatsApp       │
-                         └─────────┬─────────┘
-                                   │
-                                   ▼
-                         ┌───────────────────┐
-                         │   Meta WhatsApp   │
-                         │     Cloud API     │
-                         └─────────┬─────────┘
-                                   │
-                                   ▼
-                         ┌───────────────────┐
-                         │ WhatsApp Adapter  │
-                         └─────────┬─────────┘
-                                   │
-                                   ▼
-                    ┌──────────────────────────┐
-                    │       BookAi Backend     │
-                    │                          │
-                    │ ┌──────────────────────┐ │
-                    │ │ Conversation         │ │
-                    │ │ Management           │ │
-                    │ └──────────┬───────────┘ │
-                    │            │             │
-                    │            ▼             │
-                    │ ┌──────────────────────┐ │
-                    │ │ AI / Spring AI       │ │
-                    │ └──────────┬───────────┘ │
-                    │            │             │
-                    │            ▼             │
-                    │ ┌──────────────────────┐ │
-                    │ │ Application Layer    │ │
-                    │ └──────────┬───────────┘ │
-                    │            │             │
-                    │            ▼             │
-                    │ ┌──────────────────────┐ │
-                    │ │ Domain Layer         │ │
-                    │ └──────────┬───────────┘ │
-                    │            │             │
-                    └────────────┼─────────────┘
-                                 │
-                                 ▼
-                         ┌───────────────────┐
-                         │      MySQL        │
-                         └───────────────────┘
-```
+## Arquitectura de alto nivel
 
 ---
 
-# 🧩 Arquitectura Hexagonal
+# 🧩 Organización del proyecto
 
-El proyecto está organizado por funcionalidades y separa claramente las responsabilidades.
-
-Una estructura simplificada es:
+El proyecto utiliza una organización por funcionalidades:
 
 ```text
 com.app.bookai
@@ -173,7 +125,7 @@ com.app.bookai
 └── BookAiApplication.java
 ```
 
-Cada módulo puede contener:
+Dentro de cada funcionalidad se separan las responsabilidades:
 
 ```text
 domain
@@ -195,331 +147,78 @@ infrastructure
 └── config
 ```
 
+Esta organización permite evitar que las diferentes funcionalidades del sistema terminen concentrando toda la lógica en unas pocas clases.
+
 ---
 
 # 🧠 Inteligencia Artificial
 
 BookAi utiliza **Spring AI** para integrar modelos de lenguaje.
 
-La IA no tiene acceso directo a la base de datos.
+La inteligencia artificial no tiene acceso directo a la base de datos ni ejecuta directamente las operaciones de negocio.
 
-En su lugar, se utilizan **Tools** que funcionan como una interfaz controlada entre el modelo y el backend.
+En su lugar, se utilizan **Tools**, que funcionan como una interfaz controlada entre el modelo y el backend.
 
+Por ejemplo, cuando el usuario consulta información sobre un servicio, la IA puede utilizar una herramienta que consulta los datos reales almacenados en el sistema.
 
-
-Actualmente se utilizan herramientas relacionadas con:
+Actualmente se trabaja con herramientas relacionadas con:
 
 * Tratamientos.
 * Barberos.
-* Horarios de trabajo.
-
-Esto permite que la IA trabaje con información real del sistema en lugar de inventar datos.
+* Horarios.
+* Operaciones relacionadas con los turnos.
 
 ---
 
-# 🤖 Principio importante de la IA
+# 🤖 Principio de funcionamiento de la IA
 
-La IA **no debe inventar información relacionada con el negocio**.
+Uno de los principios importantes del proyecto es evitar que el modelo invente información relacionada con el negocio.
 
-Por ejemplo, si un cliente pregunta:
+Por ejemplo, ante una pregunta como:
 
 > "¿Cuánto cuesta el corte?"
 
-La IA debe consultar los tratamientos registrados.
+La IA debe consultar los tratamientos registrados en el sistema.
 
-No debería responder utilizando un precio inventado.
-
-De la misma forma, si pregunta:
+De la misma forma, si el usuario pregunta:
 
 > "¿Qué horarios tiene Juan?"
 
-La información debe obtenerse mediante las herramientas del backend.
+La información debe obtenerse mediante las herramientas disponibles.
+
+Esto permite separar las responsabilidades:
+
+```text
+IA
+│
+├── Interpreta la solicitud.
+├── Identifica la intención.
+└── Decide qué herramienta necesita utilizar.
+        │
+        ▼
+Backend
+│
+├── Valida la operación.
+├── Ejecuta las reglas de negocio.
+├── Consulta o modifica los datos.
+└── Devuelve el resultado.
+```
+
+La IA no reemplaza la lógica del backend.
 
 ---
 
-# 💬 Flujo de una conversación
+# 💬 Conversaciones mediante WhatsApp
 
-Ejemplo simplificado:
+WhatsApp funciona como el principal canal de comunicación con los usuarios.
 
-```text
-Cliente
-   │
-   │ "Hola"
-   ▼
-WhatsApp
-   │
-   ▼
-Webhook
-   │
-   ▼
-Conversation Service
-   │
-   ▼
-AIChatAdapter
-   │
-   ▼
-LLM
-   │
-   ├──────► TreatmentTool
-   │
-   ├──────► BarberTool
-   │
-   └──────► Appointment Use Cases
-   │
-   ▼
-Respuesta
-   │
-   ▼
-WhatsApp
-   │
-   ▼
-Cliente
-```
+El flujo general de una conversación es:
 
----
+El backend recibe los mensajes mediante un **Webhook**, identifica la conversación y procesa la solicitud correspondiente.
 
-# 🗓️ Gestión de disponibilidad
+Cuando es necesario utilizar inteligencia artificial, la conversación se deriva al componente encargado de comunicarse con el modelo.
 
-Uno de los componentes importantes de BookAi es el sistema de disponibilidad.
-
-La disponibilidad de un barbero puede depender de:
-
-* Horarios semanales.
-* Días libres.
-* Excepciones de horarios.
-* Fecha solicitada.
-* Duración del servicio.
-* Turnos existentes.
-
-La lógica sigue una estructura similar a:
-
-```text
-                    Fecha solicitada
-                           │
-                           ▼
-                  ┌─────────────────┐
-                  │ ¿Existe         │
-                  │ excepción?      │
-                  └───────┬─────────┘
-                          │
-                 ┌────────┴────────┐
-                 │                 │
-                Sí                 No
-                 │                 │
-                 ▼                 ▼
-          Usar override      Horario semanal
-                 │                 │
-                 └────────┬────────┘
-                          ▼
-                  Verificar día libre
-                          │
-                          ▼
-                   Buscar turnos
-                          │
-                          ▼
-                  Calcular espacios
-                          │
-                          ▼
-                    Disponibilidad
-```
-
----
-
-# 👤 Entidades principales
-
-Entre las principales entidades del dominio se encuentran:
-
-```text
-Customer
-   │
-   └── RoleType.CUSTOMER
-
-
-Barber
-   │
-   ├── RoleType.WORKER
-   ├── WorkingHour
-   └── DayOff
-
-
-Treatment
-   │
-   ├── name
-   ├── price
-   ├── durationMinutes
-   └── isActive
-
-
-Appointment
-   │
-   ├── Customer
-   ├── Barber
-   ├── Treatments
-   ├── startTime
-   ├── endTime
-   └── status
-```
-
----
-
-# 📊 Diagrama de clases
-
-Los diagramas del proyecto se almacenan dentro de:
-
-```text
-docs/
-└── diagrams/
-    ├── class-diagram.png
-    ├── domain-model.png
-    ├── appointment-flow.png
-    ├── architecture.png
-    └── database-schema.png
-```
-
-Cuando estén agregados al repositorio pueden mostrarse directamente en GitHub:
-
-```markdown
-## Diagrama de clases
-
-![Diagrama de clases](docs/diagrams/class-diagram.png)
-```
-
----
-
-# 🗄️ Modelo de datos
-
-BookAi utiliza **MySQL** como sistema de persistencia.
-
-Modelo conceptual simplificado:
-
-```text
-┌──────────────┐
-│   CUSTOMER   │
-├──────────────┤
-│ id           │
-│ name         │
-│ phoneNumber  │
-│ role         │
-└──────┬───────┘
-       │
-       │
-       ▼
-┌──────────────┐
-│ APPOINTMENT  │
-├──────────────┤
-│ id           │
-│ customer_id  │
-│ barber_id    │
-│ status       │
-│ start_time   │
-│ end_time     │
-└──────┬───────┘
-       │
-       │
-       ▼
-┌──────────────┐
-│    BARBER    │
-├──────────────┤
-│ id           │
-│ name         │
-│ phoneNumber  │
-│ role         │
-│ isActive     │
-└──────┬───────┘
-       │
-       ├────────────────────┐
-       ▼                    ▼
-┌──────────────┐     ┌──────────────┐
-│ WORKING_HOUR │     │   DAY_OFF    │
-├──────────────┤     ├──────────────┤
-│ id           │     │ id           │
-│ barber_id    │     │ barber_id    │
-│ dayOfWeek    │     │ date         │
-│ startTime    │     └──────────────┘
-│ endTime      │
-└──────────────┘
-```
-
----
-
-# 🧾 Snapshot de tratamientos
-
-Cuando un turno utiliza tratamientos, la información relevante del servicio debe conservarse asociada al turno.
-
-Esto permite evitar que cambios posteriores en el catálogo alteren el historial de un turno existente.
-
-Por ejemplo:
-
-```text
-Treatment
-──────────────
-name
-price
-duration
-
-
-             │
-             │ momento de reservar
-             ▼
-
-AppointmentTreatment
-────────────────────
-treatmentName
-price
-durationMinutes
-```
-
-Esto permite conservar el estado relevante del servicio en el momento de la reserva.
-
----
-
-# 🔄 Flujo de creación de un turno
-
-```text
-Cliente
-   │
-   │ Solicita turno
-   ▼
-WhatsApp
-   │
-   ▼
-Webhook
-   │
-   ▼
-AI
-   │
-   ▼
-Identificar:
-   ├── Servicio
-   ├── Barbero
-   ├── Fecha
-   └── Horario
-   │
-   ▼
-Availability Service
-   │
-   ▼
-¿Horario disponible?
-   │
-   ├── No ──────► Proponer alternativas
-   │
-   └── Sí
-         │
-         ▼
-   Solicitar confirmación
-         │
-         ▼
-      Confirmado
-         │
-         ▼
-   CreateAppointmentUseCase
-         │
-         ▼
-       MySQL
-         │
-         ▼
-   WhatsApp Response
-```
+Finalmente, la respuesta se envía nuevamente al usuario mediante la API de WhatsApp.
 
 ---
 
@@ -527,282 +226,248 @@ Availability Service
 
 BookAi utiliza la **WhatsApp Cloud API de Meta**.
 
-La integración se encuentra aislada mediante un adapter:
+La integración se encuentra aislada mediante un adaptador, evitando que la lógica de negocio dependa directamente de la API externa.
+
+El flujo de salida se estructura conceptualmente de la siguiente manera:
 
 ```text
 Application
-     │
-     ▼
+      │
+      ▼
 SendWhatsAppMessagePort
-     │
-     ▼
+      │
+      ▼
 WhatsAppAdapter
-     │
-     ▼
+      │
+      ▼
 RestClient
-     │
-     ▼
+      │
+      ▼
 Meta WhatsApp Cloud API
 ```
 
-Para recibir mensajes:
+Para los mensajes entrantes:
 
 ```text
-WhatsApp User
-      │
-      ▼
+Usuario
+   │
+   ▼
+WhatsApp
+   │
+   ▼
 Meta
-      │
-      ▼
+   │
+   ▼
 Webhook
-      │
-      ▼
+   │
+   ▼
 BookAi
-      │
-      ▼
-Conversation
-      │
-      ▼
-AI
 ```
 
----
-
-# 🔐 Seguridad y configuración
-
-Las credenciales y configuraciones sensibles no deben almacenarse directamente en el repositorio.
-
-Ejemplo:
-
-```properties
-spring.datasource.url=${DB_URL}
-spring.datasource.username=${DB_USERNAME}
-spring.datasource.password=${DB_PASSWORD}
-
-whatsapp.api.phone-number-id=${WHATSAPP_PHONE_NUMBER_ID}
-whatsapp.api.access-token=${WHATSAPP_ACCESS_TOKEN}
-whatsapp.api.version=${WHATSAPP_API_VERSION}
-```
-
-Se recomienda utilizar variables de entorno para:
-
-* Credenciales de MySQL.
-* Tokens de WhatsApp.
-* API keys de proveedores de IA.
-* Credenciales de servicios externos.
+Esta separación permite modificar la implementación de comunicación sin tener que modificar la lógica principal de la aplicación.
 
 ---
 
-# 🛠️ Tecnologías utilizadas
+# 📅 Gestión de turnos
 
-| Tecnología         | Uso                            |
-| ------------------ | ------------------------------ |
-| Java 17            | Lenguaje principal             |
-| Spring Boot 3.5.5  | Framework backend              |
-| Spring AI 1.1.8    | Integración con IA             |
-| Spring Data JPA    | Persistencia                   |
-| Hibernate          | ORM                            |
-| MySQL              | Base de datos                  |
-| MapStruct          | Mapeo DTO / Entity             |
-| Lombok             | Reducción de código repetitivo |
-| REST API           | Comunicación HTTP              |
-| WhatsApp Cloud API | Comunicación con usuarios      |
-| Meta Webhooks      | Recepción de mensajes          |
-| Maven              | Gestión de dependencias        |
-| Git                | Control de versiones           |
+La gestión de turnos es una de las partes principales del sistema.
+
+Un turno puede relacionar:
+
+* Cliente.
+* Barbero.
+* Uno o varios servicios.
+* Fecha.
+* Hora de inicio.
+* Hora de finalización.
+* Estado del turno.
+
+El proceso de creación busca validar la disponibilidad antes de registrar la operación.
 
 ---
 
-# 📦 Dependencias principales
+# 🗓️ Gestión de disponibilidad
 
-El proyecto utiliza, entre otras:
+La disponibilidad de un barbero no depende únicamente de su horario semanal.
+
+El sistema puede considerar:
+
+* Horarios laborales.
+* Días libres.
+* Excepciones de horarios.
+* Turnos existentes.
+* Fecha solicitada.
+* Duración de los servicios.
+
+Por ejemplo, una excepción de horario puede modificar el horario habitual de un determinado día.
+
+La lógica de disponibilidad permanece dentro del backend y no depende del modelo de inteligencia artificial.
+
+---
+
+# 👤 Modelo de dominio
+
+Entre las principales entidades del dominio se encuentran:
+
+### Customer
+
+Representa al cliente que utiliza el sistema.
+
+### Barber
+
+Representa al profesional que presta los servicios.
+
+### Treatment
+
+Representa un servicio ofrecido por la barbería.
+
+Entre sus datos se encuentran, entre otros:
+
+* Nombre.
+* Precio.
+* Duración.
+* Estado.
+
+### Appointment
+
+Representa un turno reservado.
+
+Puede relacionar:
+
+* Cliente.
+* Barbero.
+* Servicios.
+* Fecha.
+* Horario.
+* Estado.
+
+### WorkingHour
+
+Representa los horarios habituales de trabajo de un barbero.
+
+### DayOff
+
+Representa un día en el que un barbero no está disponible.
+
+### WorkingHourOverride
+
+Permite establecer una excepción sobre el horario habitual de un determinado día.
+
+---
+
+# 📊 Diagrama de clases
+
+El modelo de clases principal del proyecto se encuentra documentado mediante el siguiente diagrama:
+
+---
+
+# 🗄️ Persistencia y modelo de datos
+
+BookAi utiliza **MySQL** como base de datos y **Spring Data JPA / Hibernate** para la persistencia.
+
+Las entidades del dominio se mantienen separadas de las entidades utilizadas específicamente para persistencia.
+
+Esto permite evitar que las decisiones relacionadas con la base de datos se propaguen directamente hacia el dominio.
+
+---
+
+# 🧾 Snapshot de tratamientos
+
+Cuando un turno utiliza un determinado servicio, es importante conservar la información relevante correspondiente al momento de la reserva.
+
+Por ejemplo, si posteriormente cambia el precio de un tratamiento, ese cambio no debería modificar el historial de un turno que ya había sido registrado.
+
+Por este motivo, el proyecto contempla la conservación de datos relevantes del servicio utilizado en el momento de crear la reserva.
+
+---
+
+# 🔄 Flujo de creación de un turno
+
+De forma general, una solicitud puede seguir este proceso:
 
 ```text
-Spring Boot
-Spring Web
-Spring Data JPA
-Spring AI
-MySQL Driver
-MapStruct
-Lombok
-Validation
+Solicitud del cliente
+        │
+        ▼
+WhatsApp
+        │
+        ▼
+Webhook
+        │
+        ▼
+Conversación
+        │
+        ▼
+Inteligencia Artificial
+        │
+        ▼
+Identificación de información
+        │
+        ├── Servicio
+        ├── Barbero
+        ├── Fecha
+        └── Horario
+        │
+        ▼
+Validación de disponibilidad
+        │
+        ▼
+Confirmación
+        │
+        ▼
+Caso de uso
+        │
+        ▼
+Persistencia
+        │
+        ▼
+Respuesta por WhatsApp
 ```
 
----
-
-# 🚀 Instalación
-
-## 1. Clonar el repositorio
-
-```bash
-git clone https://github.com/Emir201/BookAi.git
-```
-
-```bash
-cd BookAi
-```
-
-## 2. Configurar MySQL
-
-Crear una base de datos:
-
-```sql
-CREATE DATABASE bookai;
-```
-
-Configurar las variables necesarias:
-
-```properties
-DB_URL=jdbc:mysql://localhost:3306/bookai
-DB_USERNAME=root
-DB_PASSWORD=
-```
-
----
-
-## 3. Configurar WhatsApp
-
-Configurar las credenciales de WhatsApp Cloud API:
-
-```properties
-WHATSAPP_PHONE_NUMBER_ID=...
-WHATSAPP_ACCESS_TOKEN=...
-WHATSAPP_API_VERSION=vXX.X
-```
-
----
-
-## 4. Configurar el proveedor de IA
-
-BookAi utiliza Spring AI para abstraer la comunicación con el modelo.
-
-La implementación puede utilizar diferentes proveedores/modelos compatibles con la arquitectura del proyecto.
-
-Las credenciales deben configurarse mediante variables de entorno.
-
----
-
-## 5. Ejecutar el proyecto
-
-Con Maven:
-
-```bash
-./mvnw spring-boot:run
-```
-
-En Windows:
-
-```bash
-mvnw.cmd spring-boot:run
-```
-
----
-
-# 🔌 API
-
-## AI Chat
-
-Endpoint:
-
-```http
-POST /api/v1/ai/chat
-```
-
-Ejemplo:
-
-```json
-{
-  "message": "¿Qué servicios tienen disponibles?"
-}
-```
-
----
-
-## Barbers
-
-Ejemplo de endpoint:
-
-```http
-GET /api/v1/barbers
-```
-
-Los endpoints pueden ampliarse según los casos de uso implementados.
-
----
-
-# 🧪 Pruebas
-
-El proyecto está pensado para incorporar pruebas en diferentes niveles:
-
-```text
-Unit Tests
-    │
-    ├── Domain
-    ├── Application Services
-    └── Business Rules
-
-Integration Tests
-    │
-    ├── Repositories
-    ├── Database
-    └── API
-
-End-to-End
-    │
-    └── WhatsApp → BookAi → Database
-```
-
----
-
-# 🧱 Principios de diseño
-
-BookAi busca aplicar principios de:
-
-* **SOLID**
-* **Clean Architecture**
-* **Hexagonal Architecture**
-* **Separation of Concerns**
-* **Dependency Inversion**
-* **Single Responsibility**
-* **DTO Pattern**
-* **Mapper Pattern**
-* **Use Case Pattern**
-* **Ports & Adapters**
-
-Un objetivo importante es evitar que la lógica de negocio quede acoplada a frameworks o proveedores externos.
+La implementación concreta continúa evolucionando junto con el proyecto.
 
 ---
 
 # 🔌 Ports & Adapters
 
-Ejemplo conceptual:
+Una de las decisiones principales de diseño consiste en utilizar puertos para definir las dependencias que necesita la aplicación.
+
+Por ejemplo, para enviar un mensaje de WhatsApp, la aplicación puede depender de un puerto:
 
 ```text
-                    PORT
-                     │
-                     ▼
-          ┌─────────────────────┐
-          │ SendWhatsAppMessage │
-          │       Port          │
-          └──────────┬──────────┘
-                     │
-                     ▼
-          ┌─────────────────────┐
-          │ WhatsAppAdapter     │
-          │                     │
-          │ Meta Cloud API      │
-          └─────────────────────┘
+SendWhatsAppMessagePort
 ```
 
-La aplicación depende del **puerto**, no directamente de Meta.
+La implementación concreta se encuentra en infraestructura:
 
-Esto permite reemplazar posteriormente el proveedor sin modificar la lógica principal del sistema.
+```text
+WhatsAppAdapter
+```
+
+De esta forma:
+
+```text
+Application
+     │
+     ▼
+Port
+     │
+     ▼
+Adapter
+     │
+     ▼
+External Service
+```
+
+Esto permite reemplazar una implementación externa sin modificar la lógica de negocio.
 
 ---
 
-# 🤖 AI Tools
+# 🧠 AI Tools y casos de uso
 
-Las herramientas disponibles para el modelo siguen una arquitectura similar:
+Las herramientas utilizadas por la inteligencia artificial siguen la misma idea de separación de responsabilidades.
+
+Una operación puede seguir el siguiente recorrido:
 
 ```text
 LLM
@@ -826,99 +491,298 @@ Repository Adapter
 MySQL
 ```
 
-Esto mantiene las operaciones reales dentro de los casos de uso del sistema.
+La herramienta no debería contener toda la lógica de negocio.
+
+Su responsabilidad principal es actuar como punto de entrada entre el modelo y los casos de uso de la aplicación.
+
+---
+
+# 🔐 Configuración y variables de entorno
+
+Las credenciales y datos sensibles no deben almacenarse directamente en el repositorio.
+
+Por ejemplo:
+
+```properties
+spring.datasource.url=${DB_URL}
+spring.datasource.username=${DB_USERNAME}
+spring.datasource.password=${DB_PASSWORD}
+
+whatsapp.api.phone-number-id=${WHATSAPP_PHONE_NUMBER_ID}
+whatsapp.api.access-token=${WHATSAPP_ACCESS_TOKEN}
+whatsapp.api.version=${WHATSAPP_API_VERSION}
+```
+
+Dependiendo del proveedor de inteligencia artificial utilizado, las credenciales correspondientes también deben configurarse mediante variables de entorno.
+
+Se recomienda utilizar variables de entorno para:
+
+* Credenciales de MySQL.
+* Tokens de WhatsApp.
+* Claves de proveedores de IA.
+* Credenciales de servicios externos.
+
+---
+
+# 🛠️ Tecnologías utilizadas
+
+| Tecnología             | Uso                                     |
+| ---------------------- | --------------------------------------- |
+| **Java 17**            | Lenguaje principal                      |
+| **Spring Boot 3.5.5**  | Desarrollo del backend                  |
+| **Spring AI**          | Integración con inteligencia artificial |
+| **Spring Data JPA**    | Persistencia                            |
+| **Hibernate**          | ORM                                     |
+| **MySQL**              | Base de datos                           |
+| **MapStruct**          | Mapeo entre objetos                     |
+| **Lombok**             | Reducción de código repetitivo          |
+| **REST API**           | Comunicación HTTP                       |
+| **WhatsApp Cloud API** | Comunicación con usuarios               |
+| **Meta Webhooks**      | Recepción de mensajes                   |
+| **Maven**              | Gestión del proyecto                    |
+| **Git**                | Control de versiones                    |
+
+---
+
+# 📦 Dependencias principales
+
+Entre las principales dependencias utilizadas se encuentran:
+
+```text
+Spring Boot
+Spring Web
+Spring Data JPA
+Spring AI
+MySQL Driver
+MapStruct
+Lombok
+Validation
+```
+
+---
+
+# 🚀 Instalación
+
+## 1. Clonar el repositorio
+
+```bash
+git clone https://github.com/Emir201G/BookAI.git
+```
+
+Entrar al proyecto:
+
+```bash
+cd BookAI
+```
+
+---
+
+## 2. Crear la base de datos
+
+Crear una base de datos MySQL:
+
+```sql
+CREATE DATABASE bookai;
+```
+
+Configurar las credenciales mediante variables de entorno.
+
+Por ejemplo:
+
+```properties
+DB_URL=jdbc:mysql://localhost:3306/bookai
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+---
+
+## 3. Configurar WhatsApp
+
+Para utilizar la integración con WhatsApp es necesario configurar las credenciales correspondientes de Meta:
+
+```properties
+WHATSAPP_PHONE_NUMBER_ID=...
+WHATSAPP_ACCESS_TOKEN=...
+WHATSAPP_API_VERSION=...
+```
+
+También es necesario configurar el Webhook de Meta apuntando al endpoint correspondiente de la aplicación.
+
+---
+
+## 4. Configurar el proveedor de IA
+
+BookAi utiliza **Spring AI** para abstraer la integración con modelos de lenguaje.
+
+La configuración del proveedor y las credenciales correspondientes deben realizarse mediante variables de entorno.
+
+---
+
+## 5. Ejecutar la aplicación
+
+Con Maven:
+
+```bash
+./mvnw spring-boot:run
+```
+
+En Windows:
+
+```bash
+mvnw.cmd spring-boot:run
+```
+
+---
+
+# 🔌 API
+
+BookAi expone diferentes endpoints REST para las funcionalidades del sistema.
+
+## Inteligencia artificial
+
+```http
+POST /api/v1/ai/chat
+```
+
+Ejemplo:
+
+```json
+{
+  "message": "¿Qué servicios tienen disponibles?"
+}
+```
+
+## Barberos
+
+Ejemplo:
+
+```http
+GET /api/v1/barbers
+```
+
+La API continúa evolucionando a medida que se incorporan nuevos casos de uso.
+
+---
+
+# 🧪 Pruebas
+
+El proyecto contempla pruebas en diferentes niveles:
+
+```text
+Pruebas unitarias
+        │
+        ├── Dominio
+        ├── Servicios
+        └── Reglas de negocio
+
+Pruebas de integración
+        │
+        ├── Repositorios
+        ├── Base de datos
+        └── API
+
+Pruebas de extremo a extremo
+        │
+        └── WhatsApp → BookAi → Base de datos
+```
+
+La cobertura de pruebas continúa siendo parte del desarrollo del proyecto.
+
+---
+
+# 🧱 Principios de diseño
+
+BookAi busca aplicar diferentes principios y patrones de diseño:
+
+* **SOLID**
+* **Arquitectura Hexagonal**
+* **Separación de responsabilidades**
+* **Inversión de dependencias**
+* **Responsabilidad única**
+* **DTO Pattern**
+* **Mapper Pattern**
+* **Use Case Pattern**
+* **Ports & Adapters**
+
+El objetivo principal es mantener la lógica de negocio independiente de frameworks, bases de datos y proveedores externos.
 
 ---
 
 # 📚 Documentación visual
 
-El proyecto incluye documentación mediante diagramas UML y esquemas técnicos.
+Los principales componentes técnicos del proyecto se documentan mediante diagramas en formato SVG.
 
 ```text
 docs/
-│
-├── diagrams/
-│   ├── architecture.png
-│   ├── class-diagram.png
-│   ├── domain-model.png
-│   ├── database-schema.png
-│   ├── appointment-flow.png
-│   ├── whatsapp-flow.png
-│   └── ai-tools-flow.png
-│
-└── README.md
+└── diagrams/
+    ├── architecture.svg
+    ├── class-diagram.svg
+    ├── domain-model.svg
+    ├── database-schema.svg
+    ├── appointment-flow.svg
+    ├── availability-flow.svg
+    ├── whatsapp-flow.svg
+    ├── ai-tools-flow.svg
+    └── ports-and-adapters.svg
 ```
 
-## Arquitectura
-
-![Arquitectura](docs/diagrams/architecture.png)
-
-## Diagrama de clases
-
-![Diagrama de clases](docs/diagrams/class-diagram.png)
-
-## Modelo de base de datos
-
-![Modelo de base de datos](docs/diagrams/database-schema.png)
-
-## Flujo de WhatsApp
-
-![Flujo de WhatsApp](docs/diagrams/whatsapp-flow.png)
-
-## Flujo de Inteligencia Artificial
-
-![Flujo de IA](docs/diagrams/ai-tools-flow.png)
+Los diagramas se incluyen directamente en el README para facilitar la comprensión de la arquitectura, el dominio y los principales flujos del sistema.
 
 ---
 
-# 🗺️ Roadmap
+# 🗺️ Estado del proyecto
 
-### ✅ Implementado / en desarrollo
+BookAi se encuentra actualmente **en desarrollo**.
+
+### Implementado
 
 * [x] Arquitectura hexagonal.
+* [x] Organización por funcionalidades.
 * [x] Gestión de clientes.
 * [x] Gestión de barberos.
 * [x] Gestión de tratamientos.
 * [x] Gestión de horarios.
 * [x] Gestión de días libres.
-* [x] Sistema de disponibilidad.
-* [x] Integración inicial con Spring AI.
-* [x] AI Tools.
+* [x] Gestión de excepciones de horarios.
+* [x] Lógica inicial de disponibilidad.
+* [x] Integración con Spring AI.
+* [x] Integración de herramientas para la IA.
 * [x] Integración con WhatsApp Cloud API.
 * [x] Webhook de WhatsApp.
 * [x] Gestión de conversaciones.
-* [ ] Flujo completo de reserva mediante WhatsApp.
-* [ ] Confirmación de turnos.
-* [ ] Cancelación y modificación de turnos.
-* [ ] Integración de pagos.
+* [x] API REST.
+
+### En desarrollo
+
+* [ ] Flujo completo de reservas mediante WhatsApp.
+* [ ] Confirmación de turnos mediante conversación.
+* [ ] Cancelación de turnos.
+* [ ] Modificación de turnos.
+* [ ] Mejoras en la gestión de disponibilidad.
 * [ ] Tests de integración.
 * [ ] Dockerización.
 * [ ] Deployment productivo.
 
----
+### Futuras mejoras
 
-# 🔮 Futuras mejoras
-
-Algunas funcionalidades previstas:
-
-* 💳 Integración con Mercado Pago.
-* 📅 Reservas y cancelaciones mediante lenguaje natural.
-* 🔔 Recordatorios automáticos.
-* 📊 Estadísticas para propietarios.
-* 👨‍💼 Gestión administrativa.
-* 🧠 Memoria conversacional avanzada.
-* 🔎 RAG para información adicional de la barbería.
-* 🐳 Docker / Docker Compose.
-* ☁️ Deployment en cloud.
-* 📈 Observabilidad y métricas.
-* 🔐 Autenticación y autorización para funcionalidades administrativas.
+* [ ] Integración con Mercado Pago.
+* [ ] Recordatorios automáticos.
+* [ ] Estadísticas para propietarios.
+* [ ] Gestión administrativa.
+* [ ] Memoria conversacional avanzada.
+* [ ] RAG para información adicional de la barbería.
+* [ ] Docker Compose.
+* [ ] Deployment en la nube.
+* [ ] Observabilidad y métricas.
+* [ ] Mejoras de autenticación y autorización.
 
 ---
 
-# 📁 Organización del proyecto
+# 📁 Estructura general del proyecto
 
 ```text
-BookAi
+BookAI
 │
 ├── src
 │   ├── main
@@ -944,98 +808,122 @@ BookAi
 
 # 🧠 Decisiones arquitectónicas
 
-### ¿Por qué arquitectura hexagonal?
+## ¿Por qué Arquitectura Hexagonal?
 
-Porque BookAi integra diferentes tecnologías externas:
+BookAi integra diferentes tecnologías y servicios externos, como:
 
-```text
-                  ┌──────────────┐
-                  │   WhatsApp   │
-                  └──────┬───────┘
-                         │
-                  ┌──────▼───────┐
-                  │              │
-                  │    BookAi    │
-                  │              │
-                  └──────┬───────┘
-                         │
-             ┌───────────┼────────────┐
-             │           │            │
-             ▼           ▼            ▼
-           MySQL         AI         APIs
-```
+* MySQL.
+* WhatsApp.
+* Meta.
+* Modelos de inteligencia artificial.
+* APIs externas.
 
-La arquitectura permite mantener estas dependencias en los límites del sistema.
-
-### ¿Por qué usar Tools para la IA?
-
-Porque el modelo no debería encargarse directamente de modificar el estado de la aplicación.
-
-La IA interpreta la intención:
-
-```text
-"Agregá un barbero llamado Juan"
-```
-
-Pero la operación real pasa por:
-
-```text
-AI
- ↓
-Tool
- ↓
-Use Case
- ↓
-Domain
- ↓
-Repository
- ↓
-Database
-```
-
-De esta manera, las reglas de negocio siguen perteneciendo al backend.
+La Arquitectura Hexagonal permite mantener estas dependencias en los límites del sistema y evitar que la lógica de negocio quede directamente acoplada a ellas.
 
 ---
 
-# 🎓 Objetivo del proyecto
+## ¿Por qué utilizar Tools para la IA?
 
-BookAi también funciona como proyecto de aprendizaje y portfolio enfocado en backend.
+La inteligencia artificial puede interpretar una solicitud como:
 
-El proyecto busca aplicar conceptos de desarrollo profesional utilizando:
+> "¿Qué cortes tienen disponibles?"
 
-* Java
-* Spring Boot
-* Arquitectura hexagonal
-* Diseño orientado al dominio
-* APIs REST
-* Persistencia relacional
-* Integración con servicios externos
-* Inteligencia artificial
-* Webhooks
-* Integración con WhatsApp
-* Patrones de diseño
-* Separación de responsabilidades
+Pero no debería inventar la respuesta.
+
+El modelo utiliza una herramienta para consultar la información real del sistema.
+
+El recorrido esperado es:
+
+```text
+Usuario
+   │
+   ▼
+IA
+   │
+   ▼
+Tool
+   │
+   ▼
+Caso de uso
+   │
+   ▼
+Reglas de negocio
+   │
+   ▼
+Repositorio
+   │
+   ▼
+Base de datos
+```
+
+Esto permite mantener las operaciones reales bajo el control del backend.
+
+---
+
+## ¿Por qué utilizar casos de uso?
+
+Los casos de uso representan las acciones que el sistema puede realizar.
+
+Esto permite separar:
+
+* Lo que el sistema puede hacer.
+* Cómo se ejecuta la operación.
+* Dónde se almacenan los datos.
+* Qué tecnología se utiliza para acceder a ellos.
+
+Por ejemplo, la creación de un turno puede exponerse mediante un caso de uso sin que el dominio tenga que conocer si los datos finalmente se almacenan en MySQL, PostgreSQL u otra tecnología.
+
+---
+
+# 🎓 Objetivo de aprendizaje
+
+Además de ser un proyecto funcional, BookAi es un proyecto personal orientado a profundizar conocimientos de desarrollo backend y arquitectura de software.
+
+Durante su desarrollo se trabajan conceptos como:
+
+* Java.
+* Spring Boot.
+* Arquitectura Hexagonal.
+* Diseño orientado al dominio.
+* APIs REST.
+* JPA / Hibernate.
+* Bases de datos relacionales.
+* Integración con APIs externas.
+* Webhooks.
+* WhatsApp Cloud API.
+* Inteligencia artificial.
+* Spring AI.
+* Uso de herramientas con modelos de lenguaje.
+* DTOs y mappers.
+* Casos de uso.
+* Separación de responsabilidades.
+* Principios SOLID.
+* Git.
 
 ---
 
 # 👨‍💻 Autor
 
-**Emir**
+**Emir Claudio Marcelo Guanactolay**
 
 Proyecto personal de desarrollo backend.
 
+GitHub:
+
+**[github.com/Emir201G/BookAI](https://github.com/Emir201G/BookAI)**
+
 ---
 
-# ⭐ Estado del proyecto
+# ⭐ Estado
 
-> 🚧 **En desarrollo**
+> 🚧 **BookAi se encuentra actualmente en desarrollo.**
 
-BookAi continúa evolucionando hacia un sistema completo de gestión de barberías mediante WhatsApp e Inteligencia Artificial.
+El proyecto continúa evolucionando hacia un sistema de gestión de barberías donde **WhatsApp funciona como canal de interacción y la inteligencia artificial ayuda a interpretar las solicitudes de los usuarios**, manteniendo las reglas de negocio dentro del backend.
 
 ---
 
 ## 📄 Licencia
 
-Este proyecto puede ser utilizado como proyecto personal y educativo.
+Proyecto personal y educativo.
 
 La licencia definitiva será definida posteriormente.
