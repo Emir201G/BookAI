@@ -162,20 +162,6 @@ Para utilizar WhatsApp, también es necesario configurar las credenciales de Met
 
 Los diagramas técnicos se encuentran en `docs/diagrams/`.
 
-| Archivo                      | Descripción                         |
-| ---------------------------- | ----------------------------------- |
-| `architecture.svg`           | Arquitectura general                |
-| `hexagonal-architecture.svg` | Arquitectura Hexagonal              |
-| `whatsapp-flow.svg`          | Flujo de WhatsApp                   |
-| `ai-tools-flow.svg`          | Comunicación con herramientas de IA |
-| `appointment-flow.svg`       | Creación de turnos                  |
-| `availability-flow.svg`      | Cálculo de disponibilidad           |
-| `domain-model.svg`           | Modelo de dominio                   |
-| `class-diagram.svg`          | Diagrama de clases                  |
-| `database-schema.svg`        | Esquema de base de datos            |
-| `project-structure.svg`      | Estructura del proyecto             |
-| `ports-and-adapters.svg`     | Puertos y adaptadores               |
-| `testing.svg`                | Estrategia de pruebas               |
 
 ## 👨‍💻 Autor
 
