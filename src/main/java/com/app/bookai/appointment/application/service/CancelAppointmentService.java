@@ -25,7 +25,7 @@ public class CancelAppointmentService implements CancelAppointmentUseCase {
     @Transactional
     public void cancelAppointment(String customerPhone, LocalDate date, LocalTime startTime) {
 
-        Customer customer = customerRepository.findByPhoneNumber(customerPhone);
+        Customer customer = customerRepository.findByPhoneNumber(customerPhone).get();
 
         Appointment appointment = appointmentRepository.findByCustomerIdAndDateAndStartTime(
                         customer.getId(),

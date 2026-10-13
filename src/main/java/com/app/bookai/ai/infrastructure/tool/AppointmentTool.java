@@ -5,7 +5,6 @@ import com.app.bookai.ai.infrastructure.tool.dto.appointment.AppointmentToolResp
 import com.app.bookai.ai.infrastructure.tool.mapper.AppointmentToolMapper;
 import com.app.bookai.appointment.application.dto.CreateAppointmentDTO;
 import com.app.bookai.appointment.domain.model.Appointment;
-import com.app.bookai.appointment.domain.port.in.CreateAppointmentUseCase;
 import com.app.bookai.appointment.domain.port.in.CreateWithoutBarberUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.tool.annotation.Tool;

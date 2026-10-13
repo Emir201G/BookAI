@@ -37,17 +37,11 @@ public class CustomerPersistenceAdapter implements CustomerRepository {
     }
 
     @Override
-    public Customer findByPhoneNumber(String phoneNumber) {
-        CustomerEntity customerEntity = jpaCustomerRepository
+    public Optional<Customer> findByPhoneNumber(String phoneNumber) {
+        return jpaCustomerRepository
                 .findByPhoneNumber(phoneNumber)
-                .orElseThrow(
-                        () -> new NotFoundByPhoneNumber(phoneNumber)
-                );
-
-        return customerPersistenceMapper
-                .toDomain(customerEntity);
+                .map(customerPersistenceMapper::toDomain);
     }
-
 
     @Override
     public boolean existsByPhoneNumber(String phoneNumber) {

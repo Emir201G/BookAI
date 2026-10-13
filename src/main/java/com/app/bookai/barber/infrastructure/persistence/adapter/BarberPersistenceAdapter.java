@@ -94,23 +94,23 @@ public class BarberPersistenceAdapter implements BarberRepository {
 
     @Override
     public Optional<Barber> findByPhoneNumber(String phoneNumber) {
-        BarberEntity barberEntity = jpaBarberRepository.findByPhoneNumber(phoneNumber).orElseThrow(() -> new NotFoundByPhoneNumber(phoneNumber));
-        Barber barber = barberPersistenceMapper.toDomain(barberEntity);
-        return Optional.of(barber);
+        return jpaBarberRepository
+                .findByPhoneNumber(phoneNumber)
+                .map(barberPersistenceMapper::toDomain);
     }
 
     @Override
     public boolean existsByPhoneNumber(String phoneNumber) {
-        return jpaBarberRepository.existsByPhoneNumber(phoneNumber);
+        return jpaBarberRepository
+                .existsByPhoneNumber(phoneNumber);
     }
 
     @Override
     public Optional<Barber> findByName(String name) {
 
-        BarberEntity barberEntity = jpaBarberRepository.findByName(name).orElseThrow(() -> new NotFoundByNameException(name));
-
-        Barber barber = barberPersistenceMapper.toDomain(barberEntity);
-        return Optional.of(barber);
+        return jpaBarberRepository
+                .findByName(name)
+                .map(barberPersistenceMapper::toDomain);
     }
 
     @Override

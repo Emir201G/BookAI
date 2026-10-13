@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -40,7 +41,7 @@ public class CreateAppointmentService implements CreateAppointmentUseCase {
             String customerPhone
     ) {
 
-        Customer customer = customerRepository
+        Optional<Customer> customer = customerRepository
                 .findByPhoneNumber(customerPhone);
 
         Barber barber = barberRepository
@@ -92,7 +93,7 @@ public class CreateAppointmentService implements CreateAppointmentUseCase {
 
         Appointment appointment = Appointment.builder()
                 .barberId(barber.getId())
-                .customerId(customer.getId())
+                .customerId(customer.get().getId())
                 .date(request.date())
                 .startTime(request.startTime())
                 .endTime(endTime)

@@ -15,8 +15,11 @@ public class GetBarberByPhoneNumberService implements GetBarberByPhoneNumberUseC
 
     @Override
     public Barber getBarberByPhoneNumber(String phoneNumber) {
-        Barber barber = barberRepository.findByPhoneNumber(phoneNumber)
-                .orElseThrow(() -> new NotFoundByPhoneNumber(phoneNumber));
+        Barber barber = barberRepository
+                .findByPhoneNumber(phoneNumber)
+                .orElseThrow(
+                        () -> new NotFoundByPhoneNumber(phoneNumber)
+                );
         return barber;
     }
 }

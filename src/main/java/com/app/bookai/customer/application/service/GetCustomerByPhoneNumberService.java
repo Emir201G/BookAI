@@ -3,6 +3,7 @@ package com.app.bookai.customer.application.service;
 import com.app.bookai.customer.domain.model.Customer;
 import com.app.bookai.customer.domain.port.in.GetCustomerByPhoneNumberUseCase;
 import com.app.bookai.customer.domain.port.out.CustomerRepository;
+import com.app.bookai.shared.exception.NotFoundByPhoneNumber;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,9 @@ public class GetCustomerByPhoneNumberService implements
     public Customer getCustomerByName(String phoneNumber) {
 
         return customerRepository
-                .findByPhoneNumber(phoneNumber);
+                .findByPhoneNumber(phoneNumber)
+                .orElseThrow(
+                        ()-> new NotFoundByPhoneNumber(phoneNumber)
+                );
     }
 }

@@ -42,33 +42,25 @@ public class IdentifyUserService implements IdentifyUserUseCase {
                 ))
                 .orElseGet(() -> {
 
+                    Customer customer = customerRepository
+                            .findByPhoneNumber(phoneNumber)
+                            .orElseGet(() -> {
 
-                    Customer customer =
-                            customerRepository.findByPhoneNumber(phoneNumber);
+                                Customer newCustomer = new Customer(
+                                        null,
+                                        null,
+                                        phoneNumber,
+                                        RoleType.CUSTOMER,
+                                        LocalDateTime.now(),
+                                        null
+                                );
 
-                    if (customer != null) {
-                        return new UserIdentity(
-                                customer.getId(),
-                                customer.getPhoneNumber(),
-                                RoleType.CUSTOMER
-                        );
-                    }
-
-                    Customer newCustomer = new Customer(
-                            null,
-                            null,
-                            phoneNumber,
-                            RoleType.CUSTOMER,
-                            LocalDateTime.now(),
-                            null
-                    );
-
-                    Customer savedCustomer =
-                            customerRepository.save(newCustomer);
+                                return customerRepository.save(newCustomer);
+                            });
 
                     return new UserIdentity(
-                            savedCustomer.getId(),
-                            savedCustomer.getPhoneNumber(),
+                            customer.getId(),
+                            customer.getPhoneNumber(),
                             RoleType.CUSTOMER
                     );
                 });

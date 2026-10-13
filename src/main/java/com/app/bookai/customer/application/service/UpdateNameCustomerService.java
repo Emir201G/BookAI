@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class UpdateNameCustomerService implements UpdateNameCustomerUseCase {
+
     private final CustomerRepository customerRepository;
 
     @Transactional
@@ -19,7 +20,10 @@ public class UpdateNameCustomerService implements UpdateNameCustomerUseCase {
     public Customer updateCustomer(UpdateNameRequestDTO requestDTO) {
 
         Customer customer = customerRepository
-                .findByPhoneNumber(requestDTO.phoneNumber());
+                .findByPhoneNumber(requestDTO.phoneNumber())
+                .orElseThrow(
+                        () -> new NotFoundByPhoneNumber(requestDTO.phoneNumber())
+                );
 
         customer.updateNane(requestDTO.name());
 

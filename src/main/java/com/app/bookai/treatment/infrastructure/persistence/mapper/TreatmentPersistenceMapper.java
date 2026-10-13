@@ -9,9 +9,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface TreatmentPersistenceMapper {
-//    @Mapping(target = "durationMinutes",source = "durationMinutes")
     TreatmentEntity toEntity (Treatment treatment);
     Treatment toDomain(TreatmentEntity treatment);
-
     List<Treatment> toDomain (List<TreatmentEntity> treatments);
 }
