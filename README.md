@@ -83,6 +83,9 @@ com.app.bookai
 ├── barber
 ├── customer
 ├── payment
+├── shared
+├── treatment
+├── user
 └── whatsapp
 ```
 
@@ -99,7 +102,7 @@ Algunos endpoints disponibles:
 | Método | Endpoint          | Descripción           |
 | ------ | ----------------- | --------------------- |
 | POST   | `/api/v1/ai/chat` | Interacción con la IA |
-| GET    | `/api/v1/barbers` | Consulta de barberos  |
+
 
 La API continúa evolucionando junto con el proyecto.
 
